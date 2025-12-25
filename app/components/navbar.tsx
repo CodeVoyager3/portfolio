@@ -30,15 +30,17 @@ export function NavigationMenuDemo() {
   }
 
   return (
-    <nav className="navbar h-16 z-1">
+    <nav className="navbar h-16 flex z-1">
       <div className="navbar-left">
         <Avatar
-          isBordered
-          radius="sm"
-          size="sm"
+          size="md"
+          radius="full"
           src="https://github.com/CodeVoyager3.png"
-          className="avatar-bordered"
+          className="navbar-avatar"
         />
+      </div>
+
+      <div className="navbar-center">
         <ul className="navbar-list">
           <li className="navbar-item">
             <Link href="/projects" className="navbar-link">
