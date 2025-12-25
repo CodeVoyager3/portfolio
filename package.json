@@ -17,8 +17,8 @@
     "framer-motion": "^12.23.26",
     "lucide-react": "^0.561.0",
     "next": "16.0.10",
-    "react": "19.2.1",
-    "react-dom": "19.2.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "tailwind-merge": "^3.4.0",
     "tech-stack-icons": "^3.3.2",
     "use-mobile": "^1.0.0"
