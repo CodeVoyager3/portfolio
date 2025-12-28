@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DM_Sans, Space_Mono, Dancing_Script } from "next/font/google";
+import { DM_Sans, Space_Mono, Comic_Neue } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 
@@ -15,10 +15,10 @@ const spaceMono = Space_Mono({
   weight: ["400", "700"],
 });
 
-const dancingScript = Dancing_Script({
-  variable: "--font-dancing",
+const comicNeue = Comic_Neue({
+  variable: "--font-comic",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["300", "400", "700"],
 });
 
 export const metadata: Metadata = {
@@ -34,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${dmSans.variable} ${spaceMono.variable} ${dancingScript.variable} antialiased`}
+        className={`${dmSans.variable} ${spaceMono.variable} ${comicNeue.variable} antialiased`}
       >
         <Providers>
           {children}

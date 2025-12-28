@@ -1,0 +1,96 @@
+"use client"
+
+import TechStackIcon from "tech-stack-icons"
+import * as Tooltip from "@radix-ui/react-tooltip"
+import ProfileCard from "./ProfileCard"
+import { BlurFade } from "./motion/animated-group"
+
+const skills = [
+    { name: "js", label: "JavaScript" },
+    { name: "typescript", label: "TypeScript" },
+    { name: "python", label: "Python" },
+    { name: "react", label: "React" },
+    { name: "nextjs2", label: "Next.js" },
+    { name: "nodejs", label: "Node.js" },
+    { name: "expressjs", label: "Express.js" },
+    { name: "mongodb", label: "MongoDB" },
+    { name: "postgresql", label: "PostgreSQL" },
+    { name: "tailwindcss", label: "Tailwind CSS" },
+    { name: "git", label: "Git" },
+    { name: "github", label: "GitHub" },
+    { name: "docker", label: "Docker" },
+    { name: "postman", label: "Postman" },
+    { name: "vercel", label: "Vercel" },
+]
+
+export function AboutSection() {
+    const handleContactClick = () => {
+        window.location.href = "/contact"
+    }
+
+    return (
+        <Tooltip.Provider delayDuration={100}>
+            <section className="about-section">
+                {/* Section Header */}
+                <BlurFade delay={0}>
+                    <div className="about-header">
+                        <span className="about-label">About</span>
+                        <h2 className="about-title">Me</h2>
+                    </div>
+                </BlurFade>
+
+                {/* About Content with Profile Card */}
+                <BlurFade delay={0.1}>
+                    <div className="about-content-wrapper">
+                        {/* Profile Card */}
+                        <div className="about-profile-card">
+                            <ProfileCard
+                                avatarUrl="https://github.com/CodeVoyager3.png"
+                                name="Amritesh Kumar Rai"
+                                title="Full Stack Developer"
+                                handle="CodeVoyager3"
+                                status="Open to Work"
+                                contactText="Contact"
+                                onContactClick={handleContactClick}
+                                behindGlowColor="rgba(99, 102, 241, 0.4)"
+                            />
+                        </div>
+
+                        {/* Text Content */}
+                        <div className="about-text-content">
+                            <p className="about-description">
+                                I'm a Full Stack web developer and Open Source Contributor, I love building products to solve real-world problems. I'm specialized in building MVPs.
+                            </p>
+
+                            {/* Skills */}
+                            <div className="about-skills">
+                                <span className="about-skills-label">Skills</span>
+                                <div className="about-skills-icons">
+                                    {skills.map((skill) => (
+                                        <Tooltip.Root key={skill.name} delayDuration={0}>
+                                            <Tooltip.Trigger asChild>
+                                                <button type="button" className="about-skill-icon-wrapper">
+                                                    <TechStackIcon name={skill.name} className="about-skill-icon" />
+                                                </button>
+                                            </Tooltip.Trigger>
+                                            <Tooltip.Portal>
+                                                <Tooltip.Content
+                                                    className="radix-tooltip-content"
+                                                    sideOffset={8}
+                                                    onPointerDownOutside={(e) => e.preventDefault()}
+                                                >
+                                                    {skill.label}
+                                                    <Tooltip.Arrow className="radix-tooltip-arrow" />
+                                                </Tooltip.Content>
+                                            </Tooltip.Portal>
+                                        </Tooltip.Root>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </BlurFade>
+            </section>
+        </Tooltip.Provider>
+    )
+}

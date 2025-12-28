@@ -32,12 +32,14 @@ export function NavigationMenuDemo() {
   return (
     <nav className="navbar h-16 flex z-1">
       <div className="navbar-left">
-        <Avatar
-          size="md"
-          radius="full"
-          src="https://github.com/CodeVoyager3.png"
-          className="navbar-avatar"
-        />
+        <Link href="/">
+          <Avatar
+            size="md"
+            radius="full"
+            src="https://github.com/CodeVoyager3.png"
+            className="navbar-avatar"
+          />
+        </Link>
       </div>
 
       <div className="navbar-center">
