@@ -1,8 +1,9 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import TechStackIcon from "tech-stack-icons"
 import Link from "next/link"
-import { projects, Project } from "../data/projects"
+import { Project } from "../data/projects"
 import { BlurFade } from "./motion/animated-group"
 
 function StatusBadge({ status }: { status: Project["status"] }) {
@@ -96,6 +97,15 @@ function ProjectCard({ project }: { project: Project }) {
 }
 
 export function ProjectsSection() {
+    const [projects, setProjects] = useState<Project[]>([])
+
+    useEffect(() => {
+        fetch("/api/projects")
+            .then(res => res.json())
+            .then(data => setProjects(data.slice(0, 4))) // Show first 4 on homepage
+            .catch(() => {})
+    }, [])
+
     return (
         <section className="projects-section">
             {/* Section Header */}
@@ -107,13 +117,15 @@ export function ProjectsSection() {
             </BlurFade>
 
             {/* Projects Grid - Show all projects */}
-            <div className="projects-grid">
-                {projects.map((project, index) => (
-                    <BlurFade key={index} delay={0.1 + index * 0.1}>
-                        <ProjectCard project={project} />
-                    </BlurFade>
-                ))}
-            </div>
+            {projects.length > 0 && (
+                <div className="projects-grid">
+                    {projects.map((project, index) => (
+                        <BlurFade key={project.title} delay={0.1 + index * 0.1}>
+                            <ProjectCard project={project} />
+                        </BlurFade>
+                    ))}
+                </div>
+            )}
 
             {/* Show All Button - Links to Projects Page */}
             <BlurFade delay={0.1}>

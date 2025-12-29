@@ -1,0 +1,54 @@
+[
+  {
+    "title": "Deep Learning for Medical Image Segmentation",
+    "description": "Exploring U-Net architectures and attention mechanisms for accurate tumor detection in MRI scans.",
+    "image": "/research/medical-ai.png",
+    "tags": [
+      "Deep Learning",
+      "Medical AI",
+      "Computer Vision"
+    ],
+    "date": "November 15, 2025",
+    "slug": "medical-image-segmentation",
+    "category": "computer-vision"
+  },
+  {
+    "title": "Transformer Models for Code Generation",
+    "description": "Analyzing the effectiveness of fine-tuned LLMs for automated code completion and bug detection.",
+    "image": "/research/code-gen.png",
+    "tags": [
+      "NLP",
+      "LLM",
+      "Code Generation"
+    ],
+    "date": "September 22, 2025",
+    "slug": "transformer-code-generation",
+    "category": "nlp"
+  },
+  {
+    "title": "Reinforcement Learning in Game AI",
+    "description": "Implementing deep Q-learning algorithms for autonomous game-playing agents.",
+    "image": "/research/game-ai.png",
+    "tags": [
+      "Reinforcement Learning",
+      "AI",
+      "Gaming"
+    ],
+    "date": "August 10, 2025",
+    "slug": "rl-game-ai",
+    "category": "ai-ml"
+  },
+  {
+    "title": "Neural Style Transfer Applications",
+    "description": "Real-time artistic style transfer using convolutional neural networks for creative applications.",
+    "image": "/research/style-transfer.png",
+    "tags": [
+      "Computer Vision",
+      "CNN",
+      "Art AI"
+    ],
+    "date": "July 5, 2025",
+    "slug": "neural-style-transfer",
+    "category": "computer-vision"
+  }
+]

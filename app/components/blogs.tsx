@@ -1,5 +1,6 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { BlurFade } from "./motion/animated-group"
 
@@ -11,25 +12,6 @@ interface Blog {
     date: string
     slug: string
 }
-
-const blogs: Blog[] = [
-    {
-        title: "What is taste and how can you develop it?",
-        description: "Understanding what is taste, resources and how to practice",
-        image: "/blogs/taste.png",
-        tags: ["Frontend", "Design"],
-        date: "December 7, 2025",
-        slug: "what-is-taste"
-    },
-    {
-        title: "Go in bits",
-        description: "Archive of all the links from my socials for go tuts.",
-        image: "/blogs/go-bits.png",
-        tags: ["Go", "Development", "Backend"],
-        date: "October 2, 2025",
-        slug: "go-in-bits"
-    }
-]
 
 function BlogCard({ blog }: { blog: Blog }) {
     return (
@@ -76,6 +58,15 @@ function BlogCard({ blog }: { blog: Blog }) {
 }
 
 export function BlogsSection() {
+    const [blogs, setBlogs] = useState<Blog[]>([])
+
+    useEffect(() => {
+        fetch("/api/blogs")
+            .then(res => res.json())
+            .then(data => setBlogs(data.slice(0, 2))) // Show first 2 on homepage
+            .catch(() => {})
+    }, [])
+
     return (
         <section className="blogs-section">
             {/* Section Header */}
@@ -87,19 +78,21 @@ export function BlogsSection() {
             </BlurFade>
 
             {/* Blogs Grid */}
-            <div className="blogs-grid">
-                {blogs.map((blog, index) => (
-                    <BlurFade key={index} delay={0.1 + index * 0.1}>
-                        <BlogCard blog={blog} />
-                    </BlurFade>
-                ))}
-            </div>
+            {blogs.length > 0 && (
+                <div className="blogs-grid">
+                    {blogs.map((blog, index) => (
+                        <BlurFade key={blog.slug} delay={0.1 + index * 0.1}>
+                            <BlogCard blog={blog} />
+                        </BlurFade>
+                    ))}
+                </div>
+            )}
 
             {/* Show All Button */}
             <BlurFade delay={0.2}>
                 <div className="blogs-cta">
                     <Link href="/blogs" className="show-all-btn">
-                        Show all blogs
+                        View all blogs
                     </Link>
                 </div>
             </BlurFade>

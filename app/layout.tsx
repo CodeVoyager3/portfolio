@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DM_Sans, Space_Mono, Comic_Neue } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
+import { Footer } from "./components/footer";
 
 const dmSans = DM_Sans({
   variable: "--font-sans",
@@ -38,8 +39,10 @@ export default function RootLayout({
       >
         <Providers>
           {children}
+          <Footer />
         </Providers>
       </body>
     </html>
   );
 }
+

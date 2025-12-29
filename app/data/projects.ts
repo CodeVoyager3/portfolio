@@ -13,7 +13,7 @@ export const projects: Project[] = [
         title: "NotesBuddy",
         description: "A comprehensive study platform with notes, flashcards, quizzes, AI chatbot, and interactive learning tools",
         image: "/projects/notebuddy.png",
-        technologies: ["nextjs2", "typescript", "tailwindcss", "reactjs", "mongodb"],
+        technologies: ["nextjs2", "typescript", "tailwindcss", "react", "mongodb"],
         status: "operational",
         liveUrl: "#",
         githubUrl: "#"
@@ -31,7 +31,7 @@ export const projects: Project[] = [
         title: "Syncify",
         description: "Real-time music streaming platform with synchronized playback, live chat, and social listening features",
         image: "/projects/syncify.png",
-        technologies: ["reactjs", "nodejs", "tailwindcss", "mongodb"],
+        technologies: ["react", "nodejs", "tailwindcss", "mongodb"],
         status: "operational",
         liveUrl: "#",
         githubUrl: "#"

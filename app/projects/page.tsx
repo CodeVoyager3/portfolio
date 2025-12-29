@@ -1,9 +1,10 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import TechStackIcon from "tech-stack-icons"
 import { NavigationMenuDemo } from "../components/navbar"
-import { projects, Project } from "../data/projects"
+import { Project } from "../data/projects"
+import { BlurFade } from "../components/motion/animated-group"
 
 type FilterStatus = "all" | "operational" | "building"
 
@@ -99,6 +100,20 @@ function ProjectCard({ project }: { project: Project }) {
 
 export default function ProjectsPage() {
     const [activeFilter, setActiveFilter] = useState<FilterStatus>("all")
+    const [projects, setProjects] = useState<Project[]>([])
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        fetch("/api/projects")
+            .then(res => res.json())
+            .then(data => {
+                setProjects(data)
+                setLoading(false)
+            })
+            .catch(() => {
+                setLoading(false)
+            })
+    }, [])
 
     // Count projects by status
     const workingCount = projects.filter(p => p.status === "operational").length
@@ -109,57 +124,75 @@ export default function ProjectsPage() {
         ? projects
         : projects.filter(p => p.status === activeFilter)
 
+    if (loading) {
+        return (
+            <div className="max-w-2xl mx-auto px-4 pt-24 pb-8" style={{ backgroundColor: 'var(--background)' }}>
+                <NavigationMenuDemo />
+                <div className="text-center py-12">Loading projects...</div>
+            </div>
+        )
+    }
+
     return (
         <div className="max-w-2xl mx-auto px-4 pt-24 pb-8" style={{ backgroundColor: 'var(--background)' }}>
             <NavigationMenuDemo />
 
             {/* Page Header */}
-            <div className="projects-page-header">
-                <h1 className="projects-page-title">Projects</h1>
-                <p className="projects-page-subtitle">
-                    My projects and work across different technologies and domains.
-                </p>
-            </div>
+            <BlurFade delay={0}>
+                <div className="projects-page-header">
+                    <h1 className="projects-page-title">Projects</h1>
+                    <p className="projects-page-subtitle">
+                        My projects and work across different technologies and domains.
+                    </p>
+                </div>
+            </BlurFade>
 
             {/* Filter Section */}
-            <div className="projects-filter-section">
-                <span className="projects-filter-label">Filter by Status</span>
-                <div className="projects-filter-tabs">
-                    <button
-                        className={`projects-filter-tab ${activeFilter === "all" ? "active" : ""}`}
-                        onClick={() => setActiveFilter("all")}
-                    >
-                        All ({projects.length})
-                    </button>
-                    <button
-                        className={`projects-filter-tab ${activeFilter === "operational" ? "active" : ""}`}
-                        onClick={() => setActiveFilter("operational")}
-                    >
-                        Working ({workingCount})
-                    </button>
-                    <button
-                        className={`projects-filter-tab ${activeFilter === "building" ? "active" : ""}`}
-                        onClick={() => setActiveFilter("building")}
-                    >
-                        Building ({buildingCount})
-                    </button>
+            <BlurFade delay={0.1}>
+                <div className="projects-filter-section">
+                    <span className="projects-filter-label">Filter by Status</span>
+                    <div className="projects-filter-tabs">
+                        <button
+                            className={`projects-filter-tab ${activeFilter === "all" ? "active" : ""}`}
+                            onClick={() => setActiveFilter("all")}
+                        >
+                            All ({projects.length})
+                        </button>
+                        <button
+                            className={`projects-filter-tab ${activeFilter === "operational" ? "active" : ""}`}
+                            onClick={() => setActiveFilter("operational")}
+                        >
+                            Working ({workingCount})
+                        </button>
+                        <button
+                            className={`projects-filter-tab ${activeFilter === "building" ? "active" : ""}`}
+                            onClick={() => setActiveFilter("building")}
+                        >
+                            Building ({buildingCount})
+                        </button>
+                    </div>
                 </div>
-            </div>
+            </BlurFade>
 
             {/* All Projects Header */}
-            <div className="projects-list-header">
-                <h2 className="projects-list-title">
-                    {activeFilter === "all" ? "All Projects" : activeFilter === "operational" ? "Working Projects" : "Building Projects"}
-                </h2>
-                <span className="projects-count">({filteredProjects.length} projects)</span>
-            </div>
+            <BlurFade delay={0.15}>
+                <div className="projects-list-header">
+                    <h2 className="projects-list-title">
+                        {activeFilter === "all" ? "All Projects" : activeFilter === "operational" ? "Working Projects" : "Building Projects"}
+                    </h2>
+                    <span className="projects-count">({filteredProjects.length} projects)</span>
+                </div>
+            </BlurFade>
 
             {/* Projects Grid */}
             <div className="projects-page-grid">
                 {filteredProjects.map((project, index) => (
-                    <ProjectCard key={index} project={project} />
+                    <BlurFade key={index} delay={0.1 + index * 0.05}>
+                        <ProjectCard project={project} />
+                    </BlurFade>
                 ))}
             </div>
         </div>
     )
 }
+

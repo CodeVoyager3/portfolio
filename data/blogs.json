@@ -1,0 +1,53 @@
+[
+  {
+    "title": "What is taste and how can you develop it?",
+    "description": "Understanding what is taste, resources and how to practice",
+    "image": "/blogs/taste.png",
+    "tags": [
+      "Frontend",
+      "Design"
+    ],
+    "date": "December 7, 2025",
+    "slug": "what-is-taste",
+    "category": "frontend"
+  },
+  {
+    "title": "Go in bits",
+    "description": "Archive of all the links from my socials for go tuts.",
+    "image": "/blogs/go-bits.png",
+    "tags": [
+      "Go",
+      "Development",
+      "Backend"
+    ],
+    "date": "October 2, 2025",
+    "slug": "go-in-bits",
+    "category": "backend"
+  },
+  {
+    "title": "Building Scalable APIs with Node.js",
+    "description": "Best practices for building production-ready REST APIs",
+    "image": "/blogs/nodejs-api.png",
+    "tags": [
+      "Node.js",
+      "Backend",
+      "API"
+    ],
+    "date": "September 15, 2025",
+    "slug": "scalable-apis-nodejs",
+    "category": "backend"
+  },
+  {
+    "title": "Modern CSS Techniques in 2025",
+    "description": "Exploring container queries, cascade layers, and more",
+    "image": "/blogs/modern-css.png",
+    "tags": [
+      "CSS",
+      "Frontend",
+      "Design"
+    ],
+    "date": "August 22, 2025",
+    "slug": "modern-css-2025",
+    "category": "frontend"
+  }
+]

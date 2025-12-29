@@ -81,8 +81,8 @@ export function HeroSection() {
                             <span className="tech-badge postgresql">
                                 <TechStackIcon name="postgresql" className="tech-stack-icon" /> PostgreSQL
                             </span>
-                            . With a focus on <span className="highlight-text">UI</span> design. Enthusiastic about{" "}
-                            <span className="highlight-text">Three.js</span>, driven by a keen eye for design.
+                            . With a focus on <span>UI</span> design. Enthusiastic about{" "}
+                            <span>Three.js</span>, driven by a keen eye for design.
                         </p>
                     </div>
                 </BlurFade>

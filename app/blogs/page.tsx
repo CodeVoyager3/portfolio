@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { NavigationMenuDemo } from "../components/navbar"
 import { BlurFade } from "../components/motion/animated-group"
@@ -14,45 +14,6 @@ interface Blog {
     slug: string
     category: "frontend" | "backend" | "devops" | "all"
 }
-
-const blogs: Blog[] = [
-    {
-        title: "What is taste and how can you develop it?",
-        description: "Understanding what is taste, resources and how to practice",
-        image: "/blogs/taste.png",
-        tags: ["Frontend", "Design"],
-        date: "December 7, 2025",
-        slug: "what-is-taste",
-        category: "frontend"
-    },
-    {
-        title: "Go in bits",
-        description: "Archive of all the links from my socials for go tuts.",
-        image: "/blogs/go-bits.png",
-        tags: ["Go", "Development", "Backend"],
-        date: "October 2, 2025",
-        slug: "go-in-bits",
-        category: "backend"
-    },
-    {
-        title: "Building Scalable APIs with Node.js",
-        description: "Best practices for building production-ready REST APIs",
-        image: "/blogs/nodejs-api.png",
-        tags: ["Node.js", "Backend", "API"],
-        date: "September 15, 2025",
-        slug: "scalable-apis-nodejs",
-        category: "backend"
-    },
-    {
-        title: "Modern CSS Techniques in 2025",
-        description: "Exploring container queries, cascade layers, and more",
-        image: "/blogs/modern-css.png",
-        tags: ["CSS", "Frontend", "Design"],
-        date: "August 22, 2025",
-        slug: "modern-css-2025",
-        category: "frontend"
-    }
-]
 
 type FilterCategory = "all" | "frontend" | "backend" | "devops"
 
@@ -102,6 +63,20 @@ function BlogCard({ blog }: { blog: Blog }) {
 
 export default function BlogsPage() {
     const [activeFilter, setActiveFilter] = useState<FilterCategory>("all")
+    const [blogs, setBlogs] = useState<Blog[]>([])
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        fetch("/api/blogs")
+            .then(res => res.json())
+            .then(data => {
+                setBlogs(data)
+                setLoading(false)
+            })
+            .catch(() => {
+                setLoading(false)
+            })
+    }, [])
 
     // Count blogs by category
     const frontendCount = blogs.filter(b => b.category === "frontend").length
@@ -112,12 +87,21 @@ export default function BlogsPage() {
         ? blogs
         : blogs.filter(b => b.category === activeFilter)
 
+    if (loading) {
+        return (
+            <div className="max-w-2xl mx-auto px-4 pt-24 pb-8" style={{ backgroundColor: 'var(--background)' }}>
+                <NavigationMenuDemo />
+                <div className="text-center py-12">Loading blogs...</div>
+            </div>
+        )
+    }
+
     return (
         <div className="max-w-2xl mx-auto px-4 pt-24 pb-8" style={{ backgroundColor: 'var(--background)' }}>
             <NavigationMenuDemo />
 
             {/* Page Header */}
-            <BlurFade delay={0} inView={false}>
+            <BlurFade delay={0}>
                 <div className="blogs-page-header">
                     <h1 className="blogs-page-title">Blogs</h1>
                     <p className="blogs-page-subtitle">
@@ -127,7 +111,7 @@ export default function BlogsPage() {
             </BlurFade>
 
             {/* Filter Section */}
-            <BlurFade delay={0.1} inView={false}>
+            <BlurFade delay={0.1}>
                 <div className="blogs-filter-section">
                     <span className="blogs-filter-label">Filter by Category</span>
                     <div className="blogs-filter-tabs">
@@ -154,7 +138,7 @@ export default function BlogsPage() {
             </BlurFade>
 
             {/* All Blogs Header */}
-            <BlurFade delay={0.15} inView={false}>
+            <BlurFade delay={0.15}>
                 <div className="blogs-list-header">
                     <h2 className="blogs-list-title">
                         {activeFilter === "all" ? "All Blogs" : `${activeFilter.charAt(0).toUpperCase() + activeFilter.slice(1)} Blogs`}
@@ -166,7 +150,7 @@ export default function BlogsPage() {
             {/* Blogs Grid */}
             <div className="blogs-page-grid">
                 {filteredBlogs.map((blog, index) => (
-                    <BlurFade key={blog.slug} delay={0.2 + index * 0.1} inView={false}>
+                    <BlurFade key={blog.slug} delay={0.1 + index * 0.05}>
                         <BlogCard blog={blog} />
                     </BlurFade>
                 ))}

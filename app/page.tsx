@@ -5,6 +5,8 @@ import { ProjectsSection } from "./components/projects";
 import { AboutSection } from "./components/about";
 import { GitHubActivitySection } from "./components/github-activity";
 import { BlogsSection } from "./components/blogs";
+import { ResearchSection } from "./components/research";
+import { PersonalLifeSection } from "./components/personal-life";
 
 
 export default function Home() {
@@ -16,6 +18,10 @@ export default function Home() {
       <AboutSection />
       <GitHubActivitySection />
       <BlogsSection />
+      <ResearchSection />
+      <PersonalLifeSection />
     </div>
   );
 }
+
+
