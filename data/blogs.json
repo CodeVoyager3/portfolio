@@ -1,5 +1,18 @@
 [
   {
+    "title": "Beyond the UI: Demystifying the Backend and Why It's the Backbone of the Web",
+    "description": "A deep dive into backend architecture - what happens behind the scenes when you interact with a website, from DNS lookups to connection pooling.",
+    "image": "/blogs/backend-demystified.png",
+    "tags": [
+      "Backend",
+      "Architecture",
+      "Web Development"
+    ],
+    "date": "December 31, 2025",
+    "slug": "beyond-the-ui-backend",
+    "category": "backend"
+  },
+  {
     "title": "What is taste and how can you develop it?",
     "description": "Understanding what is taste, resources and how to practice",
     "image": "/blogs/taste.png",

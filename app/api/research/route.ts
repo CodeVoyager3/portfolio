@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { cookies } from 'next/headers'
+import { auth, currentUser } from '@clerk/nextjs/server'
 import { readDataFile, writeDataFile } from '@/lib/data-utils'
+
+const ALLOWED_EMAIL = 'amriteshkumarrai14@gmail.com';
 
 interface Research {
   title: string
@@ -14,9 +16,12 @@ interface Research {
 }
 
 async function checkAuth() {
-  const cookieStore = await cookies()
-  const authCookie = cookieStore.get('admin-auth')
-  return authCookie?.value === 'authenticated'
+  const { userId } = await auth();
+  if (!userId) {
+    return false;
+  }
+  const user = await currentUser();
+  return user && user.emailAddresses[0]?.emailAddress === ALLOWED_EMAIL;
 }
 
 export async function GET() {
@@ -106,4 +111,5 @@ export async function DELETE(request: NextRequest) {
     )
   }
 }
+
 

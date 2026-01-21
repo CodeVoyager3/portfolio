@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { NavigationMenuDemo } from "../components/navbar"
-import { BlurFade } from "../components/motion/animated-group"
+import { BlurFade } from "@/components/motion/animated-group"
 
 interface Blog {
     title: string
@@ -70,7 +70,21 @@ export default function BlogsPage() {
         fetch("/api/blogs")
             .then(res => res.json())
             .then(data => {
-                setBlogs(data)
+                // Map DB fields to UI fields
+                const mappedBlogs = data.map((b: any) => ({
+                    title: b.title,
+                    description: b.excerpt || '',
+                    image: b.image || '/placeholder.png', // Fallback
+                    tags: b.tags || [],
+                    date: new Date(b.publishedDate || b.createdAt).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    }),
+                    slug: b.slug,
+                    category: b.category || 'all'
+                }))
+                setBlogs(mappedBlogs)
                 setLoading(false)
             })
             .catch(() => {

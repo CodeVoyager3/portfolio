@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { BlurFade } from "./motion/animated-group"
+import { BlurFade } from "@/components/motion/animated-group"
 
 interface Research {
     title: string
@@ -61,10 +61,30 @@ export function ResearchSection() {
     const [researches, setResearches] = useState<Research[]>([])
 
     useEffect(() => {
-        fetch("/api/research")
+        fetch("/api/papers")
             .then(res => res.json())
-            .then(data => setResearches(data.slice(0, 2))) // Show first 2 on homepage
-            .catch(() => {})
+            .then(data => {
+                const mappedResearch = data
+                    .filter((r: any) => r.featured)
+                    // Sort by publishedDate descending
+                    .sort((a: any, b: any) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime())
+                    .slice(0, 2)
+                    .map((r: any) => ({
+                        title: r.title,
+                        description: r.description,
+                        image: r.image || '/placeholder.png',
+                        tags: r.tags || [],
+                        date: new Date(r.publishedDate || r.createdAt).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        }),
+                        slug: r.slug,
+                        category: r.category || 'all'
+                    }));
+                setResearches(mappedResearch)
+            })
+            .catch(() => { })
     }, [])
 
     return (

@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { BlurFade } from "./motion/animated-group"
+import { BlurFade } from "@/components/motion/animated-group"
 
 interface GitHubStats {
     publicRepos: number

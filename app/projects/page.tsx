@@ -3,8 +3,17 @@
 import { useState, useEffect } from "react"
 import TechStackIcon from "tech-stack-icons"
 import { NavigationMenuDemo } from "../components/navbar"
-import { Project } from "../data/projects"
-import { BlurFade } from "../components/motion/animated-group"
+type Project = {
+    title: string
+    description: string
+    technologies: string[]
+    image: string
+    status: "operational" | "building" | "maintenance"
+    liveUrl?: string
+    githubUrl?: string
+    date: string
+}
+import { BlurFade } from "@/components/motion/animated-group"
 
 type FilterStatus = "all" | "operational" | "building"
 
@@ -88,7 +97,10 @@ function ProjectCard({ project }: { project: Project }) {
 
                 {/* Footer with status and details link */}
                 <div className="project-footer">
-                    <StatusBadge status={project.status} />
+                    <div className="flex flex-col gap-2">
+                        <StatusBadge status={project.status} />
+                        <span className="text-xs text-muted-foreground">{project.date}</span>
+                    </div>
                     <a href="#" className="project-details-link">
                         View Details <span className="arrow">→</span>
                     </a>
@@ -107,7 +119,21 @@ export default function ProjectsPage() {
         fetch("/api/projects")
             .then(res => res.json())
             .then(data => {
-                setProjects(data)
+                const mappedProjects = data.map((p: any) => ({
+                    title: p.title,
+                    description: p.description,
+                    technologies: p.techStack || [],
+                    image: p.thumbnail || '/placeholder.png',
+                    status: p.status || 'building',
+                    liveUrl: p.demoLink || '',
+                    githubUrl: p.githubLink || '',
+                    date: new Date(p.publishedDate || p.createdAt).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    })
+                }));
+                setProjects(mappedProjects)
                 setLoading(false)
             })
             .catch(() => {

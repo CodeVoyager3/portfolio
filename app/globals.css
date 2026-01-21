@@ -1,5 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap');
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* Force Tiptap Editor Height */
+.ProseMirror {
+  min-height: 500px;
+  height: 100%;
+}
+
+.ProseMirror:focus {
+  outline: none;
+}
 
 @custom-variant dark (&:is(.dark *));
 

@@ -1,111 +1,55 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { cookies } from 'next/headers'
-import { readDataFile, writeDataFile } from '@/lib/data-utils'
+import { auth, currentUser } from '@clerk/nextjs/server';
+import dbConnect from '@/lib/db';
+import Blog from '@/models/Blog';
+import { NextResponse } from 'next/server';
 
-interface Blog {
-  title: string
-  description: string
-  image: string
-  tags: string[]
-  date: string
-  slug: string
-  category: "frontend" | "backend" | "devops" | "all"
-  content?: string
-}
+export const dynamic = 'force-dynamic';
 
-async function checkAuth() {
-  const cookieStore = await cookies()
-  const authCookie = cookieStore.get('admin-auth')
-  return authCookie?.value === 'authenticated'
-}
+const ALLOWED_EMAIL = 'amriteshkumarrai14@gmail.com';
 
 export async function GET() {
-  const blogs = await readDataFile<Blog>('blogs.json')
-  return NextResponse.json(blogs)
-}
-
-export async function POST(request: NextRequest) {
-  if (!(await checkAuth())) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
-
   try {
-    const blog: Blog = await request.json()
-    
-    // Generate slug if not provided
-    if (!blog.slug) {
-      blog.slug = blog.title
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/(^-|-$)/g, '')
-    }
-
-    // Set date if not provided
-    if (!blog.date) {
-      blog.date = new Date().toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      })
-    }
-
-    const blogs = await readDataFile<Blog>('blogs.json')
-    blogs.push(blog)
-    await writeDataFile('blogs.json', blogs)
-
-    return NextResponse.json({ success: true, blog })
+    await dbConnect();
+    const blogs = await Blog.find({}).sort({ publishedDate: -1 });
+    return NextResponse.json(blogs, {
+      headers: { 'Content-Type': 'application/json' },
+    });
   } catch (error) {
-    return NextResponse.json(
-      { error: 'Failed to create blog' },
-      { status: 500 }
-    )
+    console.error('Error fetching blogs:', error);
+    return NextResponse.json({ error: 'Failed to fetch blogs' }, {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 }
 
-export async function PUT(request: NextRequest) {
-  if (!(await checkAuth())) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
-
+export async function POST(req: Request) {
   try {
-    const blog: Blog = await request.json()
-    const blogs = await readDataFile<Blog>('blogs.json')
-    
-    const index = blogs.findIndex(b => b.slug === blog.slug)
-    if (index === -1) {
-      return NextResponse.json({ error: 'Blog not found' }, { status: 404 })
+    const { userId } = await auth();
+    if (!userId) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    blogs[index] = blog
-    await writeDataFile('blogs.json', blogs)
+    const user = await currentUser();
+    if (!user || user.emailAddresses[0]?.emailAddress !== ALLOWED_EMAIL) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
 
-    return NextResponse.json({ success: true, blog })
-  } catch (error) {
-    return NextResponse.json(
-      { error: 'Failed to update blog' },
-      { status: 500 }
-    )
-  }
-}
+    await dbConnect();
+    const body = await req.json();
 
-export async function DELETE(request: NextRequest) {
-  if (!(await checkAuth())) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
+    // Basic validation
+    if (!body.title || !body.slug || !body.content) {
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+    }
 
-  try {
-    const { slug } = await request.json()
-    const blogs = await readDataFile<Blog>('blogs.json')
-    
-    const filtered = blogs.filter(b => b.slug !== slug)
-    await writeDataFile('blogs.json', filtered)
-
-    return NextResponse.json({ success: true })
-  } catch (error) {
-    return NextResponse.json(
-      { error: 'Failed to delete blog' },
-      { status: 500 }
-    )
+    const blog = await Blog.create(body);
+    return NextResponse.json(blog, { status: 201 });
+  } catch (error: any) {
+    if (error.code === 11000) {
+      return NextResponse.json({ error: 'Slug must be unique' }, { status: 400 });
+    }
+    return NextResponse.json({ error: 'Failed to create blog' }, { status: 500 });
   }
 }
 

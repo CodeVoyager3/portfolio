@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { BlurFade } from "./motion/animated-group"
+import { BlurFade } from "@/components/motion/animated-group"
 
 interface Blog {
     title: string
@@ -63,8 +63,28 @@ export function BlogsSection() {
     useEffect(() => {
         fetch("/api/blogs")
             .then(res => res.json())
-            .then(data => setBlogs(data.slice(0, 2))) // Show first 2 on homepage
-            .catch(() => {})
+            .then(data => {
+                const mappedBlogs = data
+                    .filter((b: any) => b.featured)
+                    // Sort by publishedDate descending
+                    .sort((a: any, b: any) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime())
+                    .slice(0, 2)
+                    .map((b: any) => ({
+                        title: b.title,
+                        description: b.excerpt || '',
+                        image: b.image || '/placeholder.png',
+                        tags: b.tags || [],
+                        date: new Date(b.publishedDate || b.createdAt).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        }),
+                        slug: b.slug,
+                        category: b.category || 'all'
+                    }))
+                setBlogs(mappedBlogs)
+            })
+            .catch(() => { })
     }, [])
 
     return (

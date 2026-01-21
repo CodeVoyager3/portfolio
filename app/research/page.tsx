@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { NavigationMenuDemo } from "../components/navbar"
-import { BlurFade } from "../components/motion/animated-group"
+import { BlurFade } from "@/components/motion/animated-group"
 
 interface Research {
     title: string
@@ -67,10 +67,23 @@ export default function ResearchPage() {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        fetch("/api/research")
+        fetch("/api/papers")
             .then(res => res.json())
             .then(data => {
-                setResearches(data)
+                const mappedResearch = data.map((r: any) => ({
+                    title: r.title,
+                    description: r.description,
+                    image: r.image || '/placeholder.png',
+                    tags: r.tags || [],
+                    date: new Date(r.publishedDate || r.createdAt).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    }),
+                    slug: r.slug,
+                    category: r.category || 'all'
+                }));
+                setResearches(mappedResearch)
                 setLoading(false)
             })
             .catch(() => {

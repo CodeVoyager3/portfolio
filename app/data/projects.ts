@@ -36,13 +36,4 @@ export const projects: Project[] = [
         liveUrl: "#",
         githubUrl: "#"
     },
-    {
-        title: "Pasandida Aurat",
-        description: "Innovative dating platform featuring anonymous questions and authentic connections - currently in development",
-        image: "/projects/pasandida.png",
-        technologies: ["nextjs2", "typescript", "postgresql"],
-        status: "building",
-        liveUrl: "#",
-        githubUrl: "#"
-    }
 ]

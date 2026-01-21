@@ -1,6 +1,6 @@
 "use client"
 
-import { BlurFade } from "./motion/animated-group"
+import { BlurFade } from "@/components/motion/animated-group"
 import TiltedCardContent from "@/components/TiltedCardContent"
 
 export function PersonalLifeSection() {

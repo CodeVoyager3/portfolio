@@ -4,7 +4,7 @@ import { useState, useRef, useCallback } from "react"
 import TechStackIcon from "tech-stack-icons"
 import * as Tooltip from "@radix-ui/react-tooltip"
 import ProfileCard from "./ProfileCard"
-import { BlurFade } from "./motion/animated-group"
+import { BlurFade } from "@/components/motion/animated-group"
 
 const skills = [
     { name: "js", label: "JavaScript" },
@@ -110,7 +110,7 @@ export function AboutSection() {
                         {/* Text Content */}
                         <div className="about-text-content">
                             <p className="about-description">
-                                I'm a Full Stack web developer and Open Source Contributor, I love building products to solve real-world problems. I'm specialized in building MVPs.
+                                I’m a full-stack web developer and open-source contributor passionate about turning ideas into impactful products. I specialize in building MVPs with a strong emphasis on usability, scalability, and real-world adoption.
                             </p>
 
                             {/* Skills */}
