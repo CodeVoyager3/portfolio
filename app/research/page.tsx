@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { NavigationMenuDemo } from "../components/navbar"
+import { NavigationMenuDemo } from "@/components/navbar"
 import { BlurFade } from "@/components/motion/animated-group"
 
 interface Research {

@@ -1,8 +1,7 @@
+
 import { auth, currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import AdminLayoutClient from './AdminLayoutClient';
-
-const ALLOWED_EMAIL = 'amriteshkumarrai14@gmail.com';
 
 export default async function AdminLayout({
     children,
@@ -16,9 +15,10 @@ export default async function AdminLayout({
     }
 
     const user = await currentUser();
+    const adminEmail = process.env.ADMIN_EMAIL || 'amriteshkumarrai14@gmail.com';
 
     // Check if the user's email matches the allowed email
-    if (!user || user.emailAddresses[0]?.emailAddress !== ALLOWED_EMAIL) {
+    if (!user || !adminEmail || user.emailAddresses[0]?.emailAddress !== adminEmail) {
         redirect('/');
     }
 

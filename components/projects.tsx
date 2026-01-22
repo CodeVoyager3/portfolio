@@ -1,9 +1,10 @@
-"use client"
 
-import { useState, useEffect } from "react"
 import TechStackIcon from "tech-stack-icons"
 import Link from "next/link"
 import { BlurFade } from "@/components/motion/animated-group"
+import dbConnect from "@/lib/db"
+import ProjectModel from "@/models/Project"
+
 interface Project {
     title: string
     description: string
@@ -115,36 +116,27 @@ function ProjectCard({ project }: { project: Project }) {
     )
 }
 
-export function ProjectsSection() {
-    const [projects, setProjects] = useState<Project[]>([])
+export async function ProjectsSection() {
+    await dbConnect()
+    const rawProjects = await ProjectModel.find({ featured: true })
+        .sort({ publishedDate: -1 })
+        .limit(4)
+        .lean()
 
-    useEffect(() => {
-        fetch("/api/projects")
-            .then(res => res.json())
-            .then(data => {
-                const mappedProjects = data
-                    .filter((p: any) => p.featured)
-                    // Sort by publishedDate descending
-                    .sort((a: any, b: any) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime())
-                    .slice(0, 4)
-                    .map((p: any) => ({
-                        title: p.title,
-                        description: p.description,
-                        technologies: p.techStack || [],
-                        image: p.thumbnail || '/placeholder.png',
-                        status: p.status || 'building',
-                        liveUrl: p.demoLink || '',
-                        githubUrl: p.githubLink || '',
-                        date: new Date(p.publishedDate || p.createdAt).toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric'
-                        })
-                    }));
-                setProjects(mappedProjects)
-            })
-            .catch(() => { })
-    }, [])
+    const projects: Project[] = rawProjects.map((p: any) => ({
+        title: p.title,
+        description: p.description,
+        technologies: p.techStack || [],
+        image: p.thumbnail || '/placeholder.png',
+        status: p.status || 'building',
+        liveUrl: p.demoLink || '',
+        githubUrl: p.githubLink || '',
+        date: new Date(p.publishedDate || p.createdAt).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        })
+    }))
 
     return (
         <section className="projects-section">
@@ -181,3 +173,4 @@ export function ProjectsSection() {
 
 // Export for use in projects page
 export { ProjectCard, StatusBadge }
+

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { format } from 'date-fns';
 import dbConnect from '@/lib/db';
 import Paper from '@/models/Paper';
-import { NavigationMenuDemo } from '../../components/navbar';
+import { NavigationMenuDemo } from "@/components/navbar";
 
 // Helper to validate/format PDF URL for embedding if needed
 // For now assuming direct link works in iframe or object

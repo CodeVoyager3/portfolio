@@ -3,9 +3,6 @@ import dbConnect from '@/lib/db';
 import Project from '@/models/Project';
 import { NextResponse } from 'next/server';
 
-export const dynamic = 'force-dynamic';
-
-const ALLOWED_EMAIL = 'amriteshkumarrai14@gmail.com';
 
 export async function GET() {
   try {
@@ -31,7 +28,10 @@ export async function POST(req: Request) {
     }
 
     const user = await currentUser();
-    if (!user || user.emailAddresses[0]?.emailAddress !== ALLOWED_EMAIL) {
+    // Use ADMIN_EMAIL from env or fallback
+    const adminEmail = process.env.ADMIN_EMAIL || 'amriteshkumarrai14@gmail.com';
+
+    if (!user || !adminEmail || user.emailAddresses[0]?.emailAddress !== adminEmail) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
@@ -48,4 +48,5 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Failed to create project' }, { status: 500 });
   }
 }
+
 

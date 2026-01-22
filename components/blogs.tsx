@@ -1,8 +1,8 @@
-"use client"
 
-import { useState, useEffect } from "react"
 import Link from "next/link"
 import { BlurFade } from "@/components/motion/animated-group"
+import dbConnect from "@/lib/db"
+import BlogModel from "@/models/Blog"
 
 interface Blog {
     title: string
@@ -57,35 +57,26 @@ function BlogCard({ blog }: { blog: Blog }) {
     )
 }
 
-export function BlogsSection() {
-    const [blogs, setBlogs] = useState<Blog[]>([])
+export async function BlogsSection() {
+    await dbConnect()
+    const rawBlogs = await BlogModel.find({ featured: true })
+        .sort({ publishedDate: -1 })
+        .limit(2)
+        .lean()
 
-    useEffect(() => {
-        fetch("/api/blogs")
-            .then(res => res.json())
-            .then(data => {
-                const mappedBlogs = data
-                    .filter((b: any) => b.featured)
-                    // Sort by publishedDate descending
-                    .sort((a: any, b: any) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime())
-                    .slice(0, 2)
-                    .map((b: any) => ({
-                        title: b.title,
-                        description: b.excerpt || '',
-                        image: b.image || '/placeholder.png',
-                        tags: b.tags || [],
-                        date: new Date(b.publishedDate || b.createdAt).toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric'
-                        }),
-                        slug: b.slug,
-                        category: b.category || 'all'
-                    }))
-                setBlogs(mappedBlogs)
-            })
-            .catch(() => { })
-    }, [])
+    const blogs: Blog[] = rawBlogs.map((b: any) => ({
+        title: b.title,
+        description: b.excerpt || '',
+        image: b.image || '/placeholder.png',
+        tags: b.tags || [],
+        date: new Date(b.publishedDate || b.createdAt).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        }),
+        slug: b.slug,
+        category: b.category || 'all'
+    }))
 
     return (
         <section className="blogs-section">
@@ -119,3 +110,4 @@ export function BlogsSection() {
         </section>
     )
 }
+

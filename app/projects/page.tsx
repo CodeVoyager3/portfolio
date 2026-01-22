@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import TechStackIcon from "tech-stack-icons"
-import { NavigationMenuDemo } from "../components/navbar"
+import { NavigationMenuDemo } from "@/components/navbar"
 type Project = {
     title: string
     description: string

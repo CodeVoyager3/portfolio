@@ -1,8 +1,8 @@
-"use client"
 
-import { useState, useEffect } from "react"
 import Link from "next/link"
 import { BlurFade } from "@/components/motion/animated-group"
+import dbConnect from "@/lib/db"
+import PaperModel from "@/models/Paper"
 
 interface Research {
     title: string
@@ -57,35 +57,26 @@ function ResearchCard({ research }: { research: Research }) {
     )
 }
 
-export function ResearchSection() {
-    const [researches, setResearches] = useState<Research[]>([])
+export async function ResearchSection() {
+    await dbConnect()
+    const rawResearch = await PaperModel.find({ featured: true })
+        .sort({ publishedDate: -1 })
+        .limit(2)
+        .lean()
 
-    useEffect(() => {
-        fetch("/api/papers")
-            .then(res => res.json())
-            .then(data => {
-                const mappedResearch = data
-                    .filter((r: any) => r.featured)
-                    // Sort by publishedDate descending
-                    .sort((a: any, b: any) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime())
-                    .slice(0, 2)
-                    .map((r: any) => ({
-                        title: r.title,
-                        description: r.description,
-                        image: r.image || '/placeholder.png',
-                        tags: r.tags || [],
-                        date: new Date(r.publishedDate || r.createdAt).toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric'
-                        }),
-                        slug: r.slug,
-                        category: r.category || 'all'
-                    }));
-                setResearches(mappedResearch)
-            })
-            .catch(() => { })
-    }, [])
+    const researches: Research[] = rawResearch.map((r: any) => ({
+        title: r.title,
+        description: r.description,
+        image: r.image || '/placeholder.png',
+        tags: r.tags || [],
+        date: new Date(r.publishedDate || r.createdAt).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        }),
+        slug: r.slug,
+        category: r.category || 'all'
+    }))
 
     return (
         <section className="research-section">
@@ -119,3 +110,4 @@ export function ResearchSection() {
         </section>
     )
 }
+

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { format } from 'date-fns';
 import dbConnect from '@/lib/db';
 import Blog from '@/models/Blog';
-import { NavigationMenuDemo } from '../../components/navbar';
+import { NavigationMenuDemo } from "@/components/navbar";
 
 // Force dynamic since we might use ISR (revalidate) properly, 
 // but for simplicity dynamic or revalidate=0.
