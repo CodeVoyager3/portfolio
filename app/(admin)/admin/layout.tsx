@@ -15,7 +15,7 @@ export default async function AdminLayout({
     }
 
     const user = await currentUser();
-    const adminEmail = process.env.ADMIN_EMAIL || 'amriteshkumarrai14@gmail.com';
+    const adminEmail = process.env.ADMIN_EMAIL;
 
     // Check if the user's email matches the allowed email
     if (!user || !adminEmail || user.emailAddresses[0]?.emailAddress !== adminEmail) {

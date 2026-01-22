@@ -1,17 +1,8 @@
 
 import Link from "next/link"
 import { BlurFade } from "@/components/motion/animated-group"
-import dbConnect from "@/lib/db"
-import BlogModel from "@/models/Blog"
-
-interface Blog {
-    title: string
-    description: string
-    image: string
-    tags: string[]
-    date: string
-    slug: string
-}
+import { DataService } from "@/lib/data-service"
+import { Blog } from "@/types"
 
 function BlogCard({ blog }: { blog: Blog }) {
     return (
@@ -58,25 +49,7 @@ function BlogCard({ blog }: { blog: Blog }) {
 }
 
 export async function BlogsSection() {
-    await dbConnect()
-    const rawBlogs = await BlogModel.find({ featured: true })
-        .sort({ publishedDate: -1 })
-        .limit(2)
-        .lean()
-
-    const blogs: Blog[] = rawBlogs.map((b: any) => ({
-        title: b.title,
-        description: b.excerpt || '',
-        image: b.image || '/placeholder.png',
-        tags: b.tags || [],
-        date: new Date(b.publishedDate || b.createdAt).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        }),
-        slug: b.slug,
-        category: b.category || 'all'
-    }))
+    const blogs = await DataService.getFeaturedBlogs();
 
     return (
         <section className="blogs-section">
@@ -89,13 +62,17 @@ export async function BlogsSection() {
             </BlurFade>
 
             {/* Blogs Grid */}
-            {blogs.length > 0 && (
+            {blogs.length > 0 ? (
                 <div className="blogs-grid">
                     {blogs.map((blog, index) => (
                         <BlurFade key={blog.slug} delay={0.1 + index * 0.1}>
                             <BlogCard blog={blog} />
                         </BlurFade>
                     ))}
+                </div>
+            ) : (
+                <div className="text-center py-10 text-muted-foreground">
+                    <p>No featured blogs found.</p>
                 </div>
             )}
 

@@ -14,6 +14,29 @@ const dmSans = DM_Sans({
 export const metadata: Metadata = {
   title: "Amritesh | Full Stack Developer",
   description: "Portfolio of Amritesh Kumar Rai - Full Stack Developer",
+  openGraph: {
+    title: "Amritesh | Full Stack Developer",
+    description: "Portfolio of Amritesh Kumar Rai - Full Stack Developer",
+    url: "https://amritesh.dev", // Replace with actual domain
+    siteName: "Amritesh Portfolio",
+    images: [
+      {
+        url: "/og-image.png", // Ensure this image exists or use a placehoder
+        width: 1200,
+        height: 630,
+        alt: "Amritesh Portfolio",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Amritesh | Full Stack Developer",
+    description: "Portfolio of Amritesh Kumar Rai - Full Stack Developer",
+    images: ["/og-image.png"],
+  },
+  metadataBase: new URL("https://amritesh.dev"), // Replace with actual domain
 };
 
 export default function RootLayout({

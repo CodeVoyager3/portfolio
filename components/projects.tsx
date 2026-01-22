@@ -2,19 +2,8 @@
 import TechStackIcon from "tech-stack-icons"
 import Link from "next/link"
 import { BlurFade } from "@/components/motion/animated-group"
-import dbConnect from "@/lib/db"
-import ProjectModel from "@/models/Project"
-
-interface Project {
-    title: string
-    description: string
-    technologies: string[]
-    image: string
-    status: "building" | "operational" | "maintenance"
-    liveUrl?: string
-    githubUrl?: string
-    date?: string
-}
+import { DataService } from "@/lib/data-service"
+import { Project } from "@/types"
 
 function StatusBadge({ status }: { status: Project["status"] }) {
     const statusConfig = {
@@ -35,7 +24,7 @@ function StatusBadge({ status }: { status: Project["status"] }) {
         }
     }
 
-    const config = statusConfig[status]
+    const config = statusConfig[status] || statusConfig.building;
 
     return (
         <div className={`project-status-badge ${config.badgeClass}`}>
@@ -117,26 +106,7 @@ function ProjectCard({ project }: { project: Project }) {
 }
 
 export async function ProjectsSection() {
-    await dbConnect()
-    const rawProjects = await ProjectModel.find({ featured: true })
-        .sort({ publishedDate: -1 })
-        .limit(4)
-        .lean()
-
-    const projects: Project[] = rawProjects.map((p: any) => ({
-        title: p.title,
-        description: p.description,
-        technologies: p.techStack || [],
-        image: p.thumbnail || '/placeholder.png',
-        status: p.status || 'building',
-        liveUrl: p.demoLink || '',
-        githubUrl: p.githubLink || '',
-        date: new Date(p.publishedDate || p.createdAt).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        })
-    }))
+    const projects = await DataService.getFeaturedProjects();
 
     return (
         <section className="projects-section">
@@ -149,13 +119,17 @@ export async function ProjectsSection() {
             </BlurFade>
 
             {/* Projects Grid - Show all projects */}
-            {projects.length > 0 && (
+            {projects.length > 0 ? (
                 <div className="projects-grid">
                     {projects.map((project, index) => (
                         <BlurFade key={project.title} delay={0.1 + index * 0.1}>
                             <ProjectCard project={project} />
                         </BlurFade>
                     ))}
+                </div>
+            ) : (
+                <div className="text-center py-10 text-muted-foreground">
+                    <p>No featured projects found.</p>
                 </div>
             )}
 
@@ -173,4 +147,5 @@ export async function ProjectsSection() {
 
 // Export for use in projects page
 export { ProjectCard, StatusBadge }
+
 

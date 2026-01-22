@@ -1,17 +1,8 @@
 
 import Link from "next/link"
 import { BlurFade } from "@/components/motion/animated-group"
-import dbConnect from "@/lib/db"
-import PaperModel from "@/models/Paper"
-
-interface Research {
-    title: string
-    description: string
-    image: string
-    tags: string[]
-    date: string
-    slug: string
-}
+import { DataService } from "@/lib/data-service"
+import { Research } from "@/types"
 
 function ResearchCard({ research }: { research: Research }) {
     return (
@@ -58,25 +49,7 @@ function ResearchCard({ research }: { research: Research }) {
 }
 
 export async function ResearchSection() {
-    await dbConnect()
-    const rawResearch = await PaperModel.find({ featured: true })
-        .sort({ publishedDate: -1 })
-        .limit(2)
-        .lean()
-
-    const researches: Research[] = rawResearch.map((r: any) => ({
-        title: r.title,
-        description: r.description,
-        image: r.image || '/placeholder.png',
-        tags: r.tags || [],
-        date: new Date(r.publishedDate || r.createdAt).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        }),
-        slug: r.slug,
-        category: r.category || 'all'
-    }))
+    const researches = await DataService.getFeaturedResearch();
 
     return (
         <section className="research-section">
@@ -89,13 +62,17 @@ export async function ResearchSection() {
             </BlurFade>
 
             {/* Research Grid */}
-            {researches.length > 0 && (
+            {researches.length > 0 ? (
                 <div className="research-grid">
                     {researches.map((research, index) => (
                         <BlurFade key={research.slug} delay={0.1 + index * 0.1}>
                             <ResearchCard research={research} />
                         </BlurFade>
                     ))}
+                </div>
+            ) : (
+                <div className="text-center py-10 text-muted-foreground">
+                    <p>No featured research found.</p>
                 </div>
             )}
 

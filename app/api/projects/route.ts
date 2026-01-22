@@ -28,8 +28,8 @@ export async function POST(req: Request) {
     }
 
     const user = await currentUser();
-    // Use ADMIN_EMAIL from env or fallback
-    const adminEmail = process.env.ADMIN_EMAIL || 'amriteshkumarrai14@gmail.com';
+    // Use ADMIN_EMAIL from env
+    const adminEmail = process.env.ADMIN_EMAIL;
 
     if (!user || !adminEmail || user.emailAddresses[0]?.emailAddress !== adminEmail) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
