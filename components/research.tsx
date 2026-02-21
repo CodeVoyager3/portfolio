@@ -7,9 +7,9 @@ import { Research } from "@/types"
 function ResearchCard({ research }: { research: Research }) {
     return (
         <Link href={`/research/${research.slug}`} className="group/item block w-full">
-            <div className="flex flex-col gap-3 w-full p-1 bg-white dark:bg-white/[0.05] border border-black/10 dark:border-white/5 rounded-[10px] transition-all duration-300 ease-out hover:border-black/20 dark:hover:border-white/10 hover:scale-[1.02] hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-black/20">
+            <div className="flex flex-col gap-3 w-full p-1 bg-white dark:bg-white/5 border border-black/10 dark:border-white/5 rounded-[10px] transition-all duration-300 ease-out hover:border-black/20 dark:hover:border-white/10 hover:scale-[1.02] hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-black/20">
                 {/* Research Image */}
-                <div className="relative overflow-hidden rounded-md w-full aspect-[16/9] bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5">
+                <div className="relative overflow-hidden rounded-md w-full aspect-4/3 bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5">
                     <img
                         src={research.image}
                         alt={research.title}
@@ -42,7 +42,7 @@ function ResearchCard({ research }: { research: Research }) {
                     </div>
 
                     {/* Footer */}
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between pt-3 border-t border-black/5 dark:border-white/5">
                         <div className="flex items-center gap-1.5 text-xs text-neutral-400 dark:text-neutral-500">
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
@@ -89,7 +89,7 @@ export async function ResearchSection() {
                 </div>
             ) : (
                 <div className="text-center py-10 text-neutral-500 dark:text-neutral-400">
-                    <p>No featured research found.</p>
+                    <p>Coming soon...</p>
                 </div>
             )}
 

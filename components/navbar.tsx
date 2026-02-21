@@ -16,12 +16,13 @@ export function NavigationMenuDemo() {
     setMounted(true)
   }, [])
 
+  if (!mounted) return null
+
   // Hide navbar on admin routes
   if (pathname?.startsWith('/admin')) {
     return null
   }
 
-  const isSubPage = pathname !== '/'
 
   return (
     <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2">
@@ -41,21 +42,6 @@ export function NavigationMenuDemo() {
           <TooltipContent>Home</TooltipContent>
         </Tooltip>
 
-        {isSubPage && (
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div className="w-8 h-8 bg-transparent hover:bg-black/5 dark:hover:bg-white/10 transition-colors duration-200 rounded-full flex items-center justify-center text-black/75 dark:text-white/80">
-                <Link href="/">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="size-[14px]">
-                    <path d="M20 20v-7a4 4 0 0 0-4-4H4" />
-                    <path d="M9 14 4 9l5-5" />
-                  </svg>
-                </Link>
-              </div>
-            </TooltipTrigger>
-            <TooltipContent>Back to home</TooltipContent>
-          </Tooltip>
-        )}
 
         {/* Nav links */}
         <NavLink href="/projects" label="Projects" pathname={pathname} />
@@ -65,37 +51,35 @@ export function NavigationMenuDemo() {
 
       {/* Right pill: Theme toggle */}
       <div className="flex items-center gap-0.5 p-0.5 bg-black/5 dark:bg-white/10 rounded-full h-[36px] backdrop-blur-md">
-        {mounted && (
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div className="w-8 h-8 bg-transparent hover:bg-black/5 dark:hover:bg-white/10 transition-colors duration-200 rounded-full flex items-center justify-center text-black/75 dark:text-white/80">
-                <button
-                  onClick={() => {
-                    const newTheme = theme === 'light' ? 'dark' : 'light'
-                    if (typeof document !== "undefined" && "startViewTransition" in document) {
-                      ; (document as Document & { startViewTransition: (callback: () => void) => void }).startViewTransition(() => {
-                        setTheme(newTheme)
-                      })
-                    } else {
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div className="w-8 h-8 bg-transparent hover:bg-black/5 dark:hover:bg-white/10 transition-colors duration-200 rounded-full flex items-center justify-center text-black/75 dark:text-white/80">
+              <button
+                onClick={() => {
+                  const newTheme = theme === 'light' ? 'dark' : 'light'
+                  if (typeof document !== "undefined" && "startViewTransition" in document) {
+                    ; (document as Document & { startViewTransition: (callback: () => void) => void }).startViewTransition(() => {
                       setTheme(newTheme)
-                    }
-                  }}
-                  className="w-full h-full flex items-center justify-center"
-                  aria-label={theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme'}
-                >
-                  {theme === 'light' ? (
-                    <Moon className="size-[14px]" aria-hidden="true" />
-                  ) : (
-                    <Sun className="size-[14px]" aria-hidden="true" />
-                  )}
-                </button>
-              </div>
-            </TooltipTrigger>
-            <TooltipContent>
-              {theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme'}
-            </TooltipContent>
-          </Tooltip>
-        )}
+                    })
+                  } else {
+                    setTheme(newTheme)
+                  }
+                }}
+                className="w-full h-full flex items-center justify-center"
+                aria-label={theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme'}
+              >
+                {theme === 'light' ? (
+                  <Moon className="size-[14px]" aria-hidden="true" />
+                ) : (
+                  <Sun className="size-[14px]" aria-hidden="true" />
+                )}
+              </button>
+            </div>
+          </TooltipTrigger>
+          <TooltipContent>
+            {theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme'}
+          </TooltipContent>
+        </Tooltip>
       </div>
     </nav>
   )
@@ -110,8 +94,8 @@ function NavLink({ href, label, pathname }: { href: string; label: string; pathn
         <Link
           href={href}
           className={`px-3 py-1 text-xs font-medium rounded-full transition-colors duration-200 ${isActive
-              ? 'bg-black/10 dark:bg-white/20 text-black dark:text-white'
-              : 'text-black/60 dark:text-white/60 hover:text-black/80 dark:hover:text-white/80 hover:bg-black/5 dark:hover:bg-white/10'
+            ? 'bg-black/10 dark:bg-white/20 text-black dark:text-white'
+            : 'text-black/60 dark:text-white/60 hover:text-black/80 dark:hover:text-white/80 hover:bg-black/5 dark:hover:bg-white/10'
             }`}
         >
           {label}
