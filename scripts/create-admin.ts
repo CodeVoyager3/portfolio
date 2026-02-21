@@ -14,15 +14,6 @@ const createAdmin = async () => {
     }
 
     try {
-        // We need to set the MONGODB_URI in the process.env if running directly, 
-        // but usually dotenv takes care of it. 
-        // If not, it assumes .env is loaded.
-        // For now, let's assume the user runs this with dotenv-cli or similar if env vars aren't picked up automatically.
-        // Actually, Next.js scripts might not pick up .env.local automatically if not run via `next`.
-        // But `tsx` supports dotenv via `dotenv/config`. 
-        // For now, I'll add basic env loading attempt if it's missing, but simpler to rely on user environment.
-
-        // Actually, let's just use dbConnect which relies on process.env.MONGODB_URI.
         if (!process.env.MONGODB_URI) {
             console.log('Ensure MONGODB_URI is set in your environment.');
         }

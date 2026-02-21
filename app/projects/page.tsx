@@ -110,6 +110,8 @@ function ProjectCard({ project }: { project: Project }) {
     )
 }
 
+import PageLayout from "@/components/PageLayout"
+
 export default function ProjectsPage() {
     const [activeFilter, setActiveFilter] = useState<FilterStatus>("all")
     const [projects, setProjects] = useState<Project[]>([])
@@ -152,17 +154,14 @@ export default function ProjectsPage() {
 
     if (loading) {
         return (
-            <div className="max-w-2xl mx-auto px-4 pt-24 pb-8" style={{ backgroundColor: 'var(--background)' }}>
-                <NavigationMenuDemo />
+            <PageLayout>
                 <div className="text-center py-12">Loading projects...</div>
-            </div>
+            </PageLayout>
         )
     }
 
     return (
-        <div className="max-w-2xl mx-auto px-4 pt-24 pb-8" style={{ backgroundColor: 'var(--background)' }}>
-            <NavigationMenuDemo />
-
+        <PageLayout>
             {/* Page Header */}
             <BlurFade delay={0}>
                 <div className="projects-page-header">
@@ -218,7 +217,7 @@ export default function ProjectsPage() {
                     </BlurFade>
                 ))}
             </div>
-        </div>
+        </PageLayout>
     )
 }
 

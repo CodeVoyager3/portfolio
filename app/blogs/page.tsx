@@ -61,6 +61,8 @@ function BlogCard({ blog }: { blog: Blog }) {
     )
 }
 
+import PageLayout from "@/components/PageLayout"
+
 export default function BlogsPage() {
     const [activeFilter, setActiveFilter] = useState<FilterCategory>("all")
     const [blogs, setBlogs] = useState<Blog[]>([])
@@ -103,17 +105,14 @@ export default function BlogsPage() {
 
     if (loading) {
         return (
-            <div className="max-w-2xl mx-auto px-4 pt-24 pb-8" style={{ backgroundColor: 'var(--background)' }}>
-                <NavigationMenuDemo />
+            <PageLayout>
                 <div className="text-center py-12">Loading blogs...</div>
-            </div>
+            </PageLayout>
         )
     }
 
     return (
-        <div className="max-w-2xl mx-auto px-4 pt-24 pb-8" style={{ backgroundColor: 'var(--background)' }}>
-            <NavigationMenuDemo />
-
+        <PageLayout>
             {/* Page Header */}
             <BlurFade delay={0}>
                 <div className="blogs-page-header">
@@ -169,6 +168,6 @@ export default function BlogsPage() {
                     </BlurFade>
                 ))}
             </div>
-        </div>
+        </PageLayout>
     )
 }

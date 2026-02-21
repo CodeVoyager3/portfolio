@@ -6,99 +6,110 @@ import { DataService } from "@/lib/data-service"
 import { Project } from "@/types"
 
 function StatusBadge({ status }: { status: Project["status"] }) {
-    const statusConfig = {
+    const config = {
         operational: {
-            text: "All Systems Operational",
-            dotClass: "status-dot-green",
-            badgeClass: "status-badge-green"
+            text: "Operational",
+            dotClass: "bg-emerald-500",
+            bgClass: "bg-emerald-500/10 border-emerald-500/20 text-emerald-600 dark:text-emerald-400"
         },
         building: {
             text: "Building",
-            dotClass: "status-dot-yellow",
-            badgeClass: "status-badge-yellow"
+            dotClass: "bg-amber-500",
+            bgClass: "bg-amber-500/10 border-amber-500/20 text-amber-600 dark:text-amber-400"
         },
         maintenance: {
             text: "Maintenance",
-            dotClass: "status-dot-orange",
-            badgeClass: "status-badge-orange"
+            dotClass: "bg-orange-500",
+            bgClass: "bg-orange-500/10 border-orange-500/20 text-orange-600 dark:text-orange-400"
         }
+    }[status] || {
+        text: "Building",
+        dotClass: "bg-amber-500",
+        bgClass: "bg-amber-500/10 border-amber-500/20 text-amber-600 dark:text-amber-400"
     }
 
-    const config = statusConfig[status] || statusConfig.building;
-
     return (
-        <div className={`project-status-badge ${config.badgeClass}`}>
-            <span className={`project-status-dot ${config.dotClass}`}></span>
-            <span className="project-status-text">{config.text}</span>
+        <div className={`inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-medium rounded-full border ${config.bgClass}`}>
+            <span className={`w-1.5 h-1.5 rounded-full animate-pulse ${config.dotClass}`} />
+            {config.text}
         </div>
     )
 }
 
 function ProjectCard({ project }: { project: Project }) {
     return (
-        <div className="project-card">
-            {/* Project Image */}
-            <div className="project-image-container">
-                <img
-                    src={project.image}
-                    alt={project.title}
-                    className="project-image"
-                />
-            </div>
+        <div className="group/item block w-full">
+            <div className="flex flex-col gap-3 w-full p-1 bg-white dark:bg-white/[0.05] border border-black/10 dark:border-white/5 rounded-[10px] transition-all duration-300 ease-out hover:border-black/20 dark:hover:border-white/10 hover:scale-[1.02] hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-black/20">
+                {/* Project Image */}
+                <div className="relative overflow-hidden rounded-md w-full aspect-[4/3] bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5">
+                    <img
+                        src={project.image}
+                        alt={project.title}
+                        className="rounded-md w-full h-full object-cover transition-transform duration-300 group-hover/item:scale-105"
+                    />
+                </div>
 
-            {/* Project Content */}
-            <div className="project-content">
-                {/* Header with title and icons */}
-                <div className="project-header">
-                    <h3 className="project-title">{project.title}</h3>
-                    <div className="project-icons">
+                {/* Content */}
+                <div className="w-full px-2 pb-3">
+                    {/* Title + Status */}
+                    <div className="flex items-center justify-between gap-2 mb-2">
+                        <span className="text-[15px] leading-7 text-black/80 dark:text-white/80 font-medium">
+                            {project.title}
+                        </span>
+                        <StatusBadge status={project.status} />
+                    </div>
+
+                    {/* Description */}
+                    <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed mb-3 line-clamp-2">
+                        {project.description}
+                    </p>
+
+                    {/* Date */}
+                    <div className="flex items-center gap-1.5 mb-3 text-xs text-neutral-400 dark:text-neutral-500">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                            <line x1="16" y1="2" x2="16" y2="6" />
+                            <line x1="8" y1="2" x2="8" y2="6" />
+                            <line x1="3" y1="10" x2="21" y2="10" />
+                        </svg>
+                        {project.date}
+                    </div>
+
+                    {/* Technologies */}
+                    <div className="flex items-center gap-2 mb-3">
+                        {project.technologies.slice(0, 6).map((tech, index) => (
+                            <TechStackIcon key={index} name={tech} className="w-5 h-5 opacity-60 hover:opacity-100 transition-opacity" />
+                        ))}
+                    </div>
+
+                    {/* Links */}
+                    <div className="flex items-center gap-2">
                         {project.liveUrl && (
-                            <a href={project.liveUrl} className="project-icon-link" aria-label="Live site">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <a
+                                href={project.liveUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 text-xs text-neutral-500 hover:text-black dark:hover:text-white transition-colors"
+                            >
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                     <circle cx="12" cy="12" r="10" />
                                     <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
                                 </svg>
+                                Live
                             </a>
                         )}
                         {project.githubUrl && (
-                            <a href={project.githubUrl} className="project-icon-link" aria-label="GitHub">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-                                </svg>
+                            <a
+                                href={project.githubUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 text-xs text-neutral-500 hover:text-black dark:hover:text-white transition-colors"
+                            >
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" /></svg>
+                                Source
                             </a>
                         )}
                     </div>
-                </div>
-
-                {/* Description */}
-                <p className="project-description">{project.description}</p>
-
-                <div className="flex items-center gap-2 mb-2 text-xs text-zinc-500 font-medium">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="inline-block">
-                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                        <line x1="16" y1="2" x2="16" y2="6"></line>
-                        <line x1="8" y1="2" x2="8" y2="6"></line>
-                        <line x1="3" y1="10" x2="21" y2="10"></line>
-                    </svg>
-                    {project.date}
-                </div>
-
-                {/* Technologies */}
-                <div className="project-technologies">
-                    <span className="project-tech-label">Technologies</span>
-                    <div className="project-tech-icons">
-                        {project.technologies.map((tech, index) => (
-                            <TechStackIcon key={index} name={tech} className="project-tech-icon" />
-                        ))}
-                    </div>
-                </div>
-
-                {/* Footer with status and details link */}
-                <div className="project-footer">
-                    <StatusBadge status={project.status} />
-                    <a href="#" className="project-details-link">
-                        View Details <span className="arrow">→</span>
-                    </a>
                 </div>
             </div>
         </div>
@@ -109,18 +120,18 @@ export async function ProjectsSection() {
     const projects = await DataService.getFeaturedProjects();
 
     return (
-        <section className="projects-section">
+        <section className="w-full mb-16">
             {/* Section Header */}
             <BlurFade delay={0}>
-                <div className="projects-header">
-                    <span className="projects-label">Featured</span>
-                    <h2 className="projects-title">Projects</h2>
+                <div className="mb-4">
+                    <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-1">Featured</p>
+                    <h2 className="text-xl font-bold text-black dark:text-white">Projects</h2>
                 </div>
             </BlurFade>
 
-            {/* Projects Grid - Show all projects */}
+            {/* Projects Grid */}
             {projects.length > 0 ? (
-                <div className="projects-grid">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 group">
                     {projects.map((project, index) => (
                         <BlurFade key={project.title} delay={0.1 + index * 0.1}>
                             <ProjectCard project={project} />
@@ -128,16 +139,22 @@ export async function ProjectsSection() {
                     ))}
                 </div>
             ) : (
-                <div className="text-center py-10 text-muted-foreground">
+                <div className="text-center py-10 text-neutral-500 dark:text-neutral-400">
                     <p>No featured projects found.</p>
                 </div>
             )}
 
-            {/* Show All Button - Links to Projects Page */}
+            {/* View All */}
             <BlurFade delay={0.1}>
-                <div className="projects-cta">
-                    <Link href="/projects" className="show-all-btn">
-                        View all projects →
+                <div className="mt-6 text-center">
+                    <Link
+                        href="/projects"
+                        className="inline-flex items-center gap-1 text-sm text-neutral-500 hover:text-black dark:hover:text-white transition-colors"
+                    >
+                        View all projects
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
                     </Link>
                 </div>
             </BlurFade>
@@ -145,7 +162,4 @@ export async function ProjectsSection() {
     )
 }
 
-// Export for use in projects page
 export { ProjectCard, StatusBadge }
-
-

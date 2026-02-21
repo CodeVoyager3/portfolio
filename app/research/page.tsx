@@ -61,6 +61,8 @@ function ResearchCard({ research }: { research: Research }) {
     )
 }
 
+import PageLayout from "@/components/PageLayout"
+
 export default function ResearchPage() {
     const [activeFilter, setActiveFilter] = useState<FilterCategory>("all")
     const [researches, setResearches] = useState<Research[]>([])
@@ -103,17 +105,14 @@ export default function ResearchPage() {
 
     if (loading) {
         return (
-            <div className="max-w-2xl mx-auto px-4 pt-24 pb-8" style={{ backgroundColor: 'var(--background)' }}>
-                <NavigationMenuDemo />
+            <PageLayout>
                 <div className="text-center py-12">Loading research papers...</div>
-            </div>
+            </PageLayout>
         )
     }
 
     return (
-        <div className="max-w-2xl mx-auto px-4 pt-24 pb-8" style={{ backgroundColor: 'var(--background)' }}>
-            <NavigationMenuDemo />
-
+        <PageLayout>
             {/* Page Header */}
             <BlurFade delay={0}>
                 <div className="research-page-header">
@@ -175,6 +174,6 @@ export default function ResearchPage() {
                     </BlurFade>
                 ))}
             </div>
-        </div>
+        </PageLayout>
     )
 }

@@ -1,14 +1,24 @@
 
 import type { Metadata } from "next";
-import { DM_Sans } from "next/font/google";
+import { Hanken_Grotesk, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import { Footer } from "@/components/footer";
+import { ScrollToTop } from "@/components/ui/ScrollAnimations";
 
-const dmSans = DM_Sans({
-  variable: "--font-sans",
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
+const hkGrotesk = Hanken_Grotesk({
+  weight: ['400'],
+  style: 'normal',
+  subsets: ['latin'],
+  variable: '--font-hk-grotesk',
+  display: 'swap',
+});
+
+const instrumentSerif = Instrument_Serif({
+  weight: ['400'],
+  style: 'normal',
+  subsets: ['latin'],
+  variable: '--font-instrument-serif',
 });
 
 export const metadata: Metadata = {
@@ -17,11 +27,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Amritesh | Full Stack Developer",
     description: "Portfolio of Amritesh Kumar Rai - Full Stack Developer",
-    url: "https://amritesh.dev", // Replace with actual domain
+    url: "https://amritesh.dev",
     siteName: "Amritesh Portfolio",
     images: [
       {
-        url: "/og-image.png", // Ensure this image exists or use a placehoder
+        url: "/og-image.png",
         width: 1200,
         height: 630,
         alt: "Amritesh Portfolio",
@@ -36,7 +46,7 @@ export const metadata: Metadata = {
     description: "Portfolio of Amritesh Kumar Rai - Full Stack Developer",
     images: ["/og-image.png"],
   },
-  metadataBase: new URL("https://amritesh.dev"), // Replace with actual domain
+  metadataBase: new URL("https://amritesh.dev"),
 };
 
 export default function RootLayout({
@@ -45,16 +55,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${dmSans.variable} antialiased`}
+        className={`${hkGrotesk.className} ${instrumentSerif.variable} antialiased`}
+        suppressHydrationWarning
       >
         <Providers>
-          {children}
-          <Footer />
+          <div className="relative z-10">
+            {children}
+          </div>
+          <ScrollToTop />
         </Providers>
       </body>
     </html>
   );
 }
-

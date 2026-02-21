@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { NavigationMenuDemo } from "@/components/navbar";
 import { HeroSection } from "@/components/hero";
 import { ProjectsSection } from "@/components/projects";
@@ -7,21 +6,26 @@ import { GitHubActivitySection } from "@/components/github-activity";
 import { BlogsSection } from "@/components/blogs";
 import { ResearchSection } from "@/components/research";
 import { PersonalLifeSection } from "@/components/personal-life";
+import SectionBorder from "@/components/SectionBorder";
+import PageLayout from "@/components/PageLayout";
 
 
 export default function Home() {
   return (
-    <div className="max-w-2xl mx-auto px-4 pt-24 pb-8" style={{ backgroundColor: 'var(--background)' }}>
-      <NavigationMenuDemo />
+    <PageLayout>
       <HeroSection />
+      <SectionBorder />
       <ProjectsSection />
+      <SectionBorder />
       <AboutSection />
+      <SectionBorder />
       <GitHubActivitySection />
+      <SectionBorder />
       <BlogsSection />
+      <SectionBorder />
       <ResearchSection />
+      <SectionBorder />
       <PersonalLifeSection />
-    </div>
+    </PageLayout>
   );
 }
-
-

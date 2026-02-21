@@ -1,103 +1,248 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react'
 import { BlurFade } from "@/components/motion/animated-group"
 
-interface GitHubStats {
-    publicRepos: number
-    followers: number
-    totalContributions: number
+interface ContributionDay {
+    date: string
+    count: number
+    level: number
 }
 
-export function GitHubActivitySection() {
-    const username = "CodeVoyager3"
-    const [stats, setStats] = useState<GitHubStats | null>(null)
-    const [isDark, setIsDark] = useState(false)
+interface ContributionWeek {
+    contributionDays: ContributionDay[]
+}
+
+export function GitHubActivitySection({ username = 'CodeVoyager3' }: { username?: string }) {
+    const [contributions, setContributions] = useState<ContributionWeek[]>([])
+    const [totalContributions, setTotalContributions] = useState(0)
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
-        // Check if dark mode
-        setIsDark(document.documentElement.classList.contains('dark'))
+        const fetchContributions = async () => {
+            try {
+                setLoading(true)
+                const now = new Date()
+                const currentYear = now.getFullYear()
+                const lastYear = currentYear - 1
 
-        // Listen for theme changes
-        const observer = new MutationObserver(() => {
-            setIsDark(document.documentElement.classList.contains('dark'))
-        })
-        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
+                const [responseLast, responseCurrent] = await Promise.all([
+                    fetch(`https://github-contributions-api.jogruber.de/v4/${username}?y=${lastYear}`),
+                    fetch(`https://github-contributions-api.jogruber.de/v4/${username}?y=${currentYear}`)
+                ])
 
-        // Fetch GitHub stats
-        fetch(`https://api.github.com/users/${username}`)
-            .then(res => res.json())
-            .then(data => {
-                setStats({
-                    publicRepos: data.public_repos || 0,
-                    followers: data.followers || 0,
-                    totalContributions: 0 // This would need GitHub GraphQL API
+                if (!responseLast.ok || !responseCurrent.ok) {
+                    throw new Error('Failed to fetch contributions')
+                }
+
+                const dataLast = await responseLast.json()
+                const dataCurrent = await responseCurrent.json()
+
+                // Combine: last 12 months of data
+                const cutoffDate = new Date()
+                cutoffDate.setFullYear(cutoffDate.getFullYear() - 1)
+
+                const allContributions: { date: string; count: number; level: number }[] = []
+
+                if (dataLast.contributions) {
+                    dataLast.contributions.forEach((day: { date: string; count: number; level: number }) => {
+                        if (new Date(day.date) >= cutoffDate) {
+                            allContributions.push(day)
+                        }
+                    })
+                }
+
+                if (dataCurrent.contributions) {
+                    dataCurrent.contributions.forEach((day: { date: string; count: number; level: number }) => {
+                        if (new Date(day.date) <= now) {
+                            allContributions.push(day)
+                        }
+                    })
+                }
+
+                const weeks: ContributionWeek[] = []
+                let currentWeek: ContributionDay[] = []
+                let total = 0
+                let isFirstDay = true
+
+                allContributions.forEach((day) => {
+                    const date = new Date(day.date)
+                    const dayOfWeek = date.getDay()
+
+                    if (isFirstDay && dayOfWeek !== 0) {
+                        for (let i = 0; i < dayOfWeek; i++) {
+                            currentWeek.push({ date: '', count: 0, level: 0 })
+                        }
+                        isFirstDay = false
+                    }
+                    isFirstDay = false
+
+                    if (dayOfWeek === 0 && currentWeek.length > 0) {
+                        weeks.push({ contributionDays: currentWeek })
+                        currentWeek = []
+                    }
+
+                    currentWeek.push({ date: day.date, count: day.count, level: day.level })
+                    total += day.count
                 })
-            })
-            .catch(console.error)
 
-        return () => observer.disconnect()
-    }, [])
+                if (currentWeek.length > 0) {
+                    weeks.push({ contributionDays: currentWeek })
+                }
 
-    // Theme for the activity graph
-    const graphTheme = isDark ? "github-dark" : "github-light"
+                setContributions(weeks)
+                setTotalContributions(total)
+                setError(null)
+            } catch (err) {
+                setError('Failed to load GitHub activity')
+                console.error('Error fetching GitHub contributions:', err)
+            } finally {
+                setLoading(false)
+            }
+        }
 
-    return (
-        <section className="github-section">
-            {/* Section Header */}
-            <BlurFade delay={0}>
-                <div className="github-header">
-                    <span className="github-label">Featured</span>
-                    <h2 className="github-title">GitHub Activity</h2>
-                </div>
-            </BlurFade>
+        fetchContributions()
+    }, [username])
 
-            {/* Stats Row */}
-            {stats && (
-                <BlurFade delay={0.1}>
-                    <div className="github-stats-row">
-                        <div className="github-stat">
-                            <span className="github-stat-value">{stats.publicRepos}</span>
-                            <span className="github-stat-label">Repositories</span>
+    const getContributionColor = (level: number) => {
+        const colors = {
+            light: ['bg-neutral-100', 'bg-green-200', 'bg-green-300', 'bg-green-400', 'bg-green-600'],
+            dark: ['dark:bg-neutral-800', 'dark:bg-green-900', 'dark:bg-green-700', 'dark:bg-green-500', 'dark:bg-green-400']
+        }
+        return `${colors.light[level]} ${colors.dark[level]}`
+    }
+
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+    const getMonthLabels = () => {
+        if (contributions.length === 0) return []
+        const labels: { month: string; position: number }[] = []
+        let currentMonth = -1
+        let lastLabelPosition = -10
+
+        contributions.forEach((week, weekIndex) => {
+            const validDay = week.contributionDays.find(day => day.date !== '')
+            if (validDay) {
+                const date = new Date(validDay.date)
+                const month = date.getMonth()
+                if (currentMonth === -1) {
+                    currentMonth = month
+                    labels.push({ month: months[month], position: weekIndex })
+                    lastLabelPosition = weekIndex
+                } else if (month !== currentMonth && weekIndex - lastLabelPosition >= 4) {
+                    currentMonth = month
+                    labels.push({ month: months[month], position: weekIndex })
+                    lastLabelPosition = weekIndex
+                } else if (month !== currentMonth) {
+                    currentMonth = month
+                }
+            }
+        })
+        return labels
+    }
+
+    const monthLabels = getMonthLabels()
+    const totalWeeks = contributions.length
+
+    if (loading) {
+        return (
+            <section className="w-full mb-16">
+                <BlurFade delay={0}>
+                    <div className="mb-4">
+                        <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-1">Featured</p>
+                        <h2 className="text-xl font-bold text-black dark:text-white mb-1">GitHub Activity</h2>
+                        <div className="h-4 w-40 bg-neutral-200 dark:bg-neutral-700 rounded animate-pulse" />
+                    </div>
+                    <div className="bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 p-4 sm:p-6">
+                        <div className="grid grid-cols-[repeat(53,1fr)] gap-[2px]">
+                            {Array.from({ length: 53 }).map((_, weekIndex) => (
+                                <div key={weekIndex} className="flex flex-col gap-[2px]">
+                                    {Array.from({ length: 7 }).map((_, dayIndex) => (
+                                        <div key={dayIndex} className="aspect-square w-full rounded-[2px] bg-neutral-200 dark:bg-neutral-700 animate-pulse" />
+                                    ))}
+                                </div>
+                            ))}
                         </div>
-                        <div className="github-stat">
-                            <span className="github-stat-value">{stats.followers}</span>
-                            <span className="github-stat-label">Followers</span>
-                        </div>
-                        <a
-                            href={`https://github.com/${username}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="github-profile-link"
-                        >
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-                            </svg>
-                            View Profile
-                        </a>
                     </div>
                 </BlurFade>
-            )}
+            </section>
+        )
+    }
 
-            {/* Contribution Graph */}
-            <BlurFade delay={0.15}>
-                <div className="github-graph-container">
-                    <img
-                        src={`https://ghchart.rshah.org/${isDark ? '6366f1' : '4f46e5'}/${username}`}
-                        alt={`${username}'s GitHub Contribution Graph`}
-                        className="github-contribution-graph"
-                    />
+    if (error) {
+        return (
+            <section className="w-full mb-16">
+                <BlurFade delay={0}>
+                    <div className="mb-4">
+                        <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-1">Featured</p>
+                        <h2 className="text-xl font-bold text-black dark:text-white mb-1">GitHub Activity</h2>
+                    </div>
+                    <div className="bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 p-6">
+                        <p className="text-neutral-500 dark:text-neutral-400 text-center">{error}</p>
+                    </div>
+                </BlurFade>
+            </section>
+        )
+    }
+
+    return (
+        <section className="w-full mb-16">
+            <BlurFade delay={0}>
+                <div className="mb-4">
+                    <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-1">Featured</p>
+                    <h2 className="text-xl font-bold text-black dark:text-white mb-1">GitHub Activity</h2>
+                    <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                        Total: <span className="font-semibold text-black dark:text-white">{totalContributions.toLocaleString()}</span> contributions
+                    </p>
                 </div>
-            </BlurFade>
 
-            {/* Activity Graph using github-readme-activity-graph */}
-            <BlurFade delay={0.2}>
-                <div className="github-activity-graph-container">
-                    <img
-                        src={`https://github-readme-activity-graph.vercel.app/graph?username=${username}&theme=${graphTheme}&hide_border=true&bg_color=transparent&color=${isDark ? 'e5e7eb' : '0f172a'}&line=${isDark ? '6366f1' : '4f46e5'}&point=${isDark ? 'a5b4fc' : '3730a3'}`}
-                        alt={`${username}'s GitHub Activity Graph`}
-                        className="github-activity-graph"
-                    />
+                <div
+                    className="bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 p-4 sm:p-6 shadow-sm"
+                    role="img"
+                    aria-label={`GitHub contribution graph showing ${totalContributions} contributions in the last year`}
+                >
+                    {/* Month labels */}
+                    <div className="relative mb-2">
+                        <div
+                            className="grid text-[10px] sm:text-xs text-neutral-500 dark:text-neutral-400"
+                            style={{ gridTemplateColumns: `repeat(${totalWeeks || 53}, 1fr)` }}
+                        >
+                            {monthLabels.map((label, index) => (
+                                <div key={index} className="text-left" style={{ gridColumn: label.position + 1 }}>
+                                    {label.month}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Contribution grid */}
+                    <div className="grid gap-[2px]" style={{ gridTemplateColumns: `repeat(${totalWeeks || 53}, 1fr)` }}>
+                        {contributions.map((week, weekIndex) => (
+                            <div key={weekIndex} className="flex flex-col gap-[2px]">
+                                {week.contributionDays.map((day, dayIndex) => (
+                                    <div
+                                        key={dayIndex}
+                                        className={`aspect-square w-full rounded-[2px] transition-colors ${getContributionColor(day.level)}`}
+                                        title={day.date ? `${day.count} contributions on ${new Date(day.date).toLocaleDateString('en-US', {
+                                            weekday: 'short', month: 'short', day: 'numeric', year: 'numeric'
+                                        })}` : ''}
+                                    />
+                                ))}
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Legend */}
+                    <div className="flex items-center justify-end mt-4 gap-2 text-[10px] sm:text-xs text-neutral-500 dark:text-neutral-400">
+                        <span>Less</span>
+                        <div className="flex gap-[2px]">
+                            {[0, 1, 2, 3, 4].map((level) => (
+                                <div key={level} className={`w-[10px] h-[10px] sm:w-[12px] sm:h-[12px] rounded-[2px] ${getContributionColor(level)}`} />
+                            ))}
+                        </div>
+                        <span>More</span>
+                    </div>
                 </div>
             </BlurFade>
         </section>
