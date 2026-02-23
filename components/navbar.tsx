@@ -89,19 +89,14 @@ function NavLink({ href, label, pathname }: { href: string; label: string; pathn
   const isActive = pathname === href
 
   return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <Link
-          href={href}
-          className={`px-3 py-1 text-xs font-medium rounded-full transition-colors duration-200 ${isActive
-            ? 'bg-black/10 dark:bg-white/20 text-black dark:text-white'
-            : 'text-black/60 dark:text-white/60 hover:text-black/80 dark:hover:text-white/80 hover:bg-black/5 dark:hover:bg-white/10'
-            }`}
-        >
-          {label}
-        </Link>
-      </TooltipTrigger>
-      <TooltipContent>{label}</TooltipContent>
-    </Tooltip>
+    <Link
+      href={href}
+      className={`px-3 py-1 text-xs font-medium rounded-full transition-colors duration-200 ${isActive
+        ? 'bg-black/10 dark:bg-white/20 text-black dark:text-white'
+        : 'text-black/60 dark:text-white/60 hover:text-black/80 dark:hover:text-white/80 hover:bg-black/5 dark:hover:bg-white/10'
+        }`}
+    >
+      {label}
+    </Link>
   )
 }
