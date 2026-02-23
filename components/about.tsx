@@ -5,7 +5,7 @@ import { BlurFade } from "@/components/motion/animated-group"
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip"
 import { ArrowUpRight } from "lucide-react"
 
-const darkInvertIcons = ['expressjs', 'github', 'vercel', 'nginx']
+const darkInvertIcons = ['expressjs', 'github', 'vercel', 'nginx', 'python']
 
 const skills = [
     { name: "js", label: "JavaScript" },
