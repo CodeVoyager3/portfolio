@@ -5,12 +5,24 @@ import { BlurFade } from "@/components/motion/animated-group"
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip"
 import { ArrowUpRight } from "lucide-react"
 
-const darkInvertIcons = ['expressjs', 'github', 'vercel', 'nginx', 'python']
+// Python SVG inline since tech-stack-icons doesn't render it correctly
+function PythonIcon({ className }: { className?: string }) {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 48 48"
+            className={className}
+        >
+            <path fill="#0277BD" d="M24.047 5c-1.555.005-3.07.114-4.47.333-4.075.676-4.814 2.09-4.814 4.7v3.45h9.627v1.15H10.44c-2.727 0-5.115 1.64-5.863 4.757-.862 3.582-.9 5.818 0 9.553.668 2.784 2.264 4.757 4.99 4.757H13v-4.14c0-3.1 2.682-5.835 5.863-5.835h9.614c2.608 0 4.713-2.15 4.713-4.765V10.033c0-2.54-2.144-4.448-4.713-4.7C26.988 5.07 25.602 4.995 24.047 5Zm-5.2 2.832c.974 0 1.768.8 1.768 1.787a1.78 1.78 0 0 1-1.768 1.792A1.78 1.78 0 0 1 17.08 9.62c0-.987.793-1.787 1.767-1.787Z" />
+            <path fill="#FFC107" d="M33.777 13.633v4.025c0 3.23-2.739 5.953-5.863 5.953H18.3c-2.566 0-4.713 2.195-4.713 4.765v8.93c0 2.54 2.21 4.03 4.713 4.765 2.983.877 5.843.965 9.614 0 2.424-.627 4.713-1.89 4.713-4.765V34.06H22.99v-1.15h14.342c2.727 0 3.744-1.903 4.713-4.757.983-2.94.942-5.77 0-9.553-.676-2.718-1.984-4.757-4.713-4.757l-3.555-.21Zm-5.41 20.52c.974 0 1.768.8 1.768 1.787a1.78 1.78 0 0 1-1.768 1.792 1.78 1.78 0 0 1-1.767-1.792c0-.987.793-1.787 1.767-1.787Z" />
+        </svg>
+    )
+}
 
-const skills = [
+const skills: { name: string; label: string; custom?: React.ReactNode }[] = [
     { name: "js", label: "JavaScript" },
     { name: "typescript", label: "TypeScript" },
-    { name: "python", label: "Python" },
+    { name: "python", label: "Python", custom: <PythonIcon className="w-6 h-6 sm:w-7 sm:h-7" /> },
     { name: "react", label: "React" },
     { name: "nextjs2", label: "Next.js" },
     { name: "nodejs", label: "Node.js" },
@@ -80,7 +92,12 @@ export function AboutSection() {
                             <Tooltip key={skill.name}>
                                 <TooltipTrigger asChild>
                                     <div className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer">
-                                        <TechStackIcon name={skill.name} className={`w-6 h-6 sm:w-7 sm:h-7 ${darkInvertIcons.includes(skill.name) ? 'dark:invert' : ''}`} />
+                                        {skill.custom ?? (
+                                            <TechStackIcon
+                                                name={skill.name}
+                                                className={`w-6 h-6 sm:w-7 sm:h-7 ${['expressjs', 'github', 'vercel', 'nginx'].includes(skill.name) ? 'dark:invert' : ''}`}
+                                            />
+                                        )}
                                     </div>
                                 </TooltipTrigger>
                                 <TooltipContent>{skill.label}</TooltipContent>

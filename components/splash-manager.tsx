@@ -1,19 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { MorphingText } from "@/components/ui/morphing-text";
-
-const texts = [
-    "Welcome",
-    "to my",
-    "Portfolio",
-    "Initializing",
-    "Ready",
-];
+import { AnimatePresence } from "framer-motion";
+import { LoadingScreen } from "@/components/loading-screen";
 
 export function SplashManager({ children }: { children: React.ReactNode }) {
-    const [showSplash, setShowSplash] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
@@ -23,18 +15,15 @@ export function SplashManager({ children }: { children: React.ReactNode }) {
         const hasShownSplash = sessionStorage.getItem("splashShown");
 
         if (hasShownSplash) {
-            setShowSplash(false);
+            setIsLoading(false);
             return;
         }
-
-        // Show splash for 3 seconds
-        const timer = setTimeout(() => {
-            setShowSplash(false);
-            sessionStorage.setItem("splashShown", "true");
-        }, 3000);
-
-        return () => clearTimeout(timer);
     }, []);
+
+    const handleComplete = () => {
+        setIsLoading(false);
+        sessionStorage.setItem("splashShown", "true");
+    };
 
     // Prevent hydration mismatch by not rendering anything until mounted
     if (!mounted) {
@@ -44,25 +33,11 @@ export function SplashManager({ children }: { children: React.ReactNode }) {
     return (
         <>
             <AnimatePresence mode="wait">
-                {showSplash ? (
-                    <motion.div
-                        key="splash"
-                        initial={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.5 }}
-                        className="fixed inset-0 z-50 flex items-center justify-center bg-background"
-                    >
-                        <MorphingText texts={texts} />
-                    </motion.div>
-                ) : null}
+                {isLoading && <LoadingScreen key="loading-screen" onComplete={handleComplete} />}
             </AnimatePresence>
-            <motion.div
-                initial={showSplash ? { opacity: 0 } : { opacity: 1 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: showSplash ? 0.2 : 0 }}
-            >
-                {(!showSplash || mounted) && children}
-            </motion.div>
+            <div style={{ opacity: isLoading ? 0 : 1, transition: isLoading ? "none" : "opacity 0.5s ease-out 0.6s" }}>
+                {children}
+            </div>
         </>
     );
 }

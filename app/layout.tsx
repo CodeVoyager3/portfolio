@@ -16,7 +16,7 @@ const hkGrotesk = Hanken_Grotesk({
 
 const instrumentSerif = Instrument_Serif({
   weight: ['400'],
-  style: 'normal',
+  style: ['normal', 'italic'],
   subsets: ['latin'],
   variable: '--font-instrument-serif',
 });
