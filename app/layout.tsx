@@ -21,6 +21,8 @@ const instrumentSerif = Instrument_Serif({
   variable: '--font-instrument-serif',
 });
 
+import { CursorWrapper } from "@/components/cursor-wrapper";
+
 export const metadata: Metadata = {
   title: "Amritesh | Full Stack Developer",
   description: "Portfolio of Amritesh Kumar Rai - Full Stack Developer",
@@ -65,6 +67,7 @@ export default function RootLayout({
             {children}
           </div>
           <ScrollToTop />
+          <CursorWrapper />
         </Providers>
       </body>
     </html>

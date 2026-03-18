@@ -3,6 +3,8 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { X, Send, Loader2, CheckCircle2 } from "lucide-react"
+import { ShineBorder } from "@/components/ui/shine-border"
+
 
 interface ContactModalProps {
     isOpen: boolean
@@ -68,8 +70,12 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                         exit={{ scale: 0.95, opacity: 0, y: 20 }}
                         className="relative w-full max-w-lg overflow-hidden rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-[#0a0a0a] shadow-2xl"
                     >
+                        <ShineBorder 
+                            className="pointer-events-none" 
+                            shineColor={["#6366f1", "#60496e", "#71C4FF"]} 
+                        />
                         {/* Header */}
-                        <div className="flex items-center justify-between border-b border-neutral-100 dark:border-neutral-800/50 px-6 py-5">
+                        <div className="relative flex items-center justify-between border-b border-neutral-100 dark:border-neutral-800/50 px-6 py-5">
                             <h2 className="text-xl font-bold text-black dark:text-white">Get in Touch</h2>
                             <button
                                 onClick={onClose}
@@ -80,7 +86,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                         </div>
 
                         {/* Form Area */}
-                        <div className="p-6 sm:p-8">
+                        <div className="relative p-6 sm:p-8">
                             {success ? (
                                 <motion.div
                                     initial={{ opacity: 0, scale: 0.9 }}

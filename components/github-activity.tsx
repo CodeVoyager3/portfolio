@@ -107,8 +107,8 @@ export function GitHubActivitySection({ username = 'CodeVoyager3' }: { username?
 
     const getContributionColor = (level: number) => {
         const colors = {
-            light: ['bg-neutral-100', 'bg-green-200', 'bg-green-300', 'bg-green-400', 'bg-green-600'],
-            dark: ['dark:bg-neutral-800', 'dark:bg-green-900', 'dark:bg-green-700', 'dark:bg-green-500', 'dark:bg-green-400']
+            light: ['bg-neutral-100', 'bg-indigo-200', 'bg-indigo-300', 'bg-indigo-500', 'bg-indigo-600'],
+            dark: ['dark:bg-neutral-800', 'dark:bg-indigo-900', 'dark:bg-indigo-700', 'dark:bg-indigo-500', 'dark:bg-indigo-400']
         }
         return `${colors.light[level]} ${colors.dark[level]}`
     }
@@ -154,7 +154,7 @@ export function GitHubActivitySection({ username = 'CodeVoyager3' }: { username?
                         <h2 className="text-xl font-bold text-black dark:text-white mb-1">GitHub Activity</h2>
                         <div className="h-4 w-40 bg-neutral-200 dark:bg-neutral-700 rounded animate-pulse" />
                     </div>
-                    <div className="bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 p-4 sm:p-6">
+                    <div className="bg-white dark:bg-white/5 border border-black/10 dark:border-white/5 rounded-[10px] p-4 sm:p-6">
                         <div className="grid grid-cols-[repeat(53,1fr)] gap-[2px]">
                             {Array.from({ length: 53 }).map((_, weekIndex) => (
                                 <div key={weekIndex} className="flex flex-col gap-[2px]">
@@ -178,7 +178,7 @@ export function GitHubActivitySection({ username = 'CodeVoyager3' }: { username?
                         <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-1">Featured</p>
                         <h2 className="text-xl font-bold text-black dark:text-white mb-1">GitHub Activity</h2>
                     </div>
-                    <div className="bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 p-6">
+                    <div className="bg-white dark:bg-white/5 border border-black/10 dark:border-white/5 rounded-[10px] p-6">
                         <p className="text-neutral-500 dark:text-neutral-400 text-center">{error}</p>
                     </div>
                 </BlurFade>
@@ -198,7 +198,7 @@ export function GitHubActivitySection({ username = 'CodeVoyager3' }: { username?
                 </div>
 
                 <div
-                    className="bg-white dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-800 p-4 sm:p-6 shadow-sm"
+                    className="bg-white dark:bg-white/5 border border-black/10 dark:border-white/5 rounded-[10px] p-4 sm:p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.1)] transition-all duration-300 hover:border-black/20 dark:hover:border-white/10"
                     role="img"
                     aria-label={`GitHub contribution graph showing ${totalContributions} contributions in the last year`}
                 >
