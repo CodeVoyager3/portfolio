@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "init-data": "tsx scripts/init-data.ts",
+    "spotify-auth": "node scripts/spotify-auth.mjs",
     "test": "vitest"
   },
   "dependencies": {
