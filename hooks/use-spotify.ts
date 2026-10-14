@@ -7,12 +7,10 @@ export function useSpotify(pollIntervalMs = 7000) {
   const [data, setData] = useState<SpotifyTrackResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
-  const [isDemo, setIsDemo] = useState(false);
 
-  const fetchSpotify = useCallback(async (demoMode = isDemo) => {
+  const fetchSpotify = useCallback(async () => {
     try {
-      const url = demoMode ? "/api/spotify?demo=true" : "/api/spotify";
-      const res = await fetch(url, { cache: "no-store" });
+      const res = await fetch("/api/spotify", { cache: "no-store" });
       if (!res.ok) {
         throw new Error(`Failed to fetch Spotify data: ${res.status}`);
       }
@@ -24,21 +22,21 @@ export function useSpotify(pollIntervalMs = 7000) {
     } finally {
       setIsLoading(false);
     }
-  }, [isDemo]);
+  }, []);
 
   // Initial fetch and polling
   useEffect(() => {
-    fetchSpotify(isDemo);
+    fetchSpotify();
 
     const interval = setInterval(() => {
       if (document.visibilityState === "visible") {
-        fetchSpotify(isDemo);
+        fetchSpotify();
       }
     }, pollIntervalMs);
 
     const handleVisibilityChange = () => {
       if (document.visibilityState === "visible") {
-        fetchSpotify(isDemo);
+        fetchSpotify();
       }
     };
 
@@ -48,23 +46,13 @@ export function useSpotify(pollIntervalMs = 7000) {
       clearInterval(interval);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
-  }, [fetchSpotify, isDemo, pollIntervalMs]);
-
-  const toggleDemo = () => {
-    setIsDemo((prev) => {
-      const next = !prev;
-      fetchSpotify(next);
-      return next;
-    });
-  };
+  }, [fetchSpotify, pollIntervalMs]);
 
   return {
     data,
     isPlaying: Boolean(data?.isPlaying),
     isLoading,
     error,
-    isDemo,
-    toggleDemo,
-    refresh: () => fetchSpotify(isDemo),
+    refresh: fetchSpotify,
   };
 }

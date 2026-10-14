@@ -23,31 +23,7 @@ export interface SpotifyTrackResponse {
   configured: boolean;
 }
 
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const isDemo = searchParams.get('demo') === 'true';
-
-  // Demo fallback mode for preview and testing
-  if (isDemo) {
-    return NextResponse.json<SpotifyTrackResponse>(
-      {
-        isPlaying: true,
-        title: 'Starboy',
-        artist: 'The Weeknd, Daft Punk',
-        album: 'Starboy',
-        albumImageUrl: 'https://i.scdn.co/image/ab67616d0000b2734718e2b124f79258be7bc452',
-        songUrl: 'https://open.spotify.com/track/7MXVkk9YM5IZxh0WSlVI1q',
-        progressMs: 78000,
-        durationMs: 230453,
-        configured: isSpotifyConfigured || isLastFmConfigured,
-      },
-      {
-        headers: {
-          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-        },
-      }
-    );
-  }
+export async function GET() {
 
   // 1. If Last.fm is configured, try it first (no Spotify Premium required)
   if (isLastFmConfigured) {
