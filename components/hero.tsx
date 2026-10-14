@@ -11,6 +11,7 @@ import { ShimmerButton } from "@/components/magicui/shimmer-button"
 import { RainbowButton } from "@/components/ui/rainbow-button"
 import { useSpotify } from "@/hooks/use-spotify"
 import { SpotifyHeroWidget } from "./spotify-hero-widget"
+import { SpotifyEqualizer } from "./spotify-equalizer"
 
 export function HeroSection() {
     const [isContactOpen, setIsContactOpen] = useState(false)
@@ -58,15 +59,29 @@ export function HeroSection() {
             {/* Profile Image & Spotify Widget - overlapping banner */}
             <BlurFade delay={0.1} inView={false}>
                 <div className="flex items-end justify-between gap-3 mb-4">
-                    {/* Circular Profile Picture */}
+                    {/* Circular Profile Picture with Spotify Status */}
                     <div className="relative shrink-0 -mt-14 sm:-mt-16">
-                        {/* Circular Profile Avatar */}
+                        {/* Circular Profile Avatar with Green Border when playing */}
                         <div
-                            className="w-24 h-24 sm:w-28 sm:h-28 relative z-10 rounded-full overflow-hidden bg-cover bg-center shrink-0 shadow-lg ring-4 ring-white dark:ring-white"
+                            className={`w-24 h-24 sm:w-28 sm:h-28 relative z-10 rounded-full overflow-hidden bg-cover bg-center shrink-0 transition-all duration-500 shadow-lg ${
+                                spotify.isPlaying
+                                    ? "ring-4 ring-[#1DB954] shadow-[0_0_24px_rgba(29,185,84,0.45)]"
+                                    : "ring-4 ring-white dark:ring-white"
+                            }`}
                             role="img"
                             aria-label="Amritesh Kumar Rai"
                             style={{ backgroundImage: `url("https://github.com/CodeVoyager3.png")` }}
                         />
+
+                        {/* Music bars equalizer animation badge on profile picture */}
+                        {spotify.isPlaying && (
+                            <div
+                                className="absolute bottom-0 right-0 z-20 translate-x-0.5 translate-y-0.5 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#1DB954] border-2 border-white dark:border-[#0b0f1a] shadow-md flex items-center justify-center"
+                                title="Listening on Spotify"
+                            >
+                                <SpotifyEqualizer isPlaying={true} size="sm" barColor="bg-black" />
+                            </div>
+                        )}
                     </div>
 
                     {/* Right side: Spotify Live Track Widget */}
