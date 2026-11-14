@@ -5,13 +5,11 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useClerk } from '@clerk/nextjs';
 import { cn } from '@/lib/utils';
-import { LayoutDashboard, FileText, FolderGit2, BookOpen, LogOut, Sun, Moon } from 'lucide-react';
+import { LayoutDashboard, FolderGit2, LogOut, Sun, Moon } from 'lucide-react';
 
 const navigation = [
     { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
-    { name: 'Blogs', href: '/admin/blogs', icon: FileText },
-    { name: 'Projects', href: '/admin/projects', icon: FolderGit2 },
-    { name: 'Research', href: '/admin/research', icon: BookOpen },
+    { name: 'GitHub Projects', href: '/admin/github', icon: FolderGit2 },
 ];
 
 interface SidebarProps {

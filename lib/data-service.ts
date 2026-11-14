@@ -1,85 +1,81 @@
 import dbConnect from "@/lib/db";
-import ProjectModel from "@/models/Project";
-import BlogModel from "@/models/Blog";
-import PaperModel from "@/models/Paper";
-import { Project, Blog, Research, ProjectDocument, BlogDocument, PaperDocument } from "@/types";
+import GitHubProjectModel from "@/models/GitHubProject";
+import { GitHubProject, GitHubProjectDocument } from "@/types";
+
+function toGitHubProject(doc: GitHubProjectDocument): GitHubProject {
+    return {
+        repoId: doc.repoId,
+        name: doc.name,
+        fullName: doc.fullName,
+        description: doc.description || '',
+        url: doc.url,
+        homepage: doc.homepage || '',
+        language: doc.language || '',
+        topics: doc.topics || [],
+        stars: doc.stars ?? 0,
+        forks: doc.forks ?? 0,
+        isFork: doc.isFork ?? false,
+        pinned: doc.pinned ?? false,
+        published: doc.published ?? false,
+        pushedAt: doc.pushedAt ? new Date(doc.pushedAt).toISOString() : '',
+    };
+}
 
 export const DataService = {
-    async getFeaturedProjects(): Promise<Project[]> {
+    async getFeaturedProjects(limit = 4): Promise<GitHubProject[]> {
         try {
             await dbConnect();
-            const rawProjects = await ProjectModel.find({ featured: true })
-                .sort({ publishedDate: -1 })
-                .limit(4)
-                .lean<ProjectDocument[]>();
-
-            return rawProjects.map((p) => ({
-                title: p.title,
-                description: p.description,
-                technologies: p.techStack || [],
-                image: p.thumbnail || '/placeholder.png',
-                status: p.status || 'building',
-                liveUrl: p.demoLink || '',
-                githubUrl: p.githubLink || '',
-                date: formatDate(p.publishedDate || p.createdAt),
-            }));
+            const pinned = await GitHubProjectModel.find({ pinned: true, published: true })
+                .sort({ stars: -1 })
+                .lean<GitHubProjectDocument[]>();
+            const others = await GitHubProjectModel.find({ pinned: false, published: true })
+                .sort({ stars: -1 })
+                .lean<GitHubProjectDocument[]>();
+            return [...pinned, ...others].slice(0, limit).map(toGitHubProject);
         } catch (error) {
             console.error("Failed to fetch featured projects:", error);
             return [];
         }
     },
 
-    async getFeaturedBlogs(): Promise<Blog[]> {
+    async getPublishedProjects(): Promise<GitHubProject[]> {
         try {
             await dbConnect();
-            const rawBlogs = await BlogModel.find({ featured: true })
-                .sort({ publishedDate: -1 })
-                .limit(2)
-                .lean<BlogDocument[]>();
-
-            return rawBlogs.map((b) => ({
-                title: b.title,
-                description: b.excerpt || '',
-                image: b.image || '/placeholder.png',
-                tags: b.tags || [],
-                date: formatDate(b.publishedDate || b.createdAt),
-                slug: b.slug,
-                category: b.category || 'all',
-            }));
+            const rows = await GitHubProjectModel.find({ published: true })
+                .sort({ pinned: -1, stars: -1 })
+                .lean<GitHubProjectDocument[]>();
+            return rows.map(toGitHubProject);
         } catch (error) {
-            console.error("Failed to fetch featured blogs:", error);
+            console.error("Failed to fetch published projects:", error);
             return [];
         }
     },
 
-    async getFeaturedResearch(): Promise<Research[]> {
+    async getAllProjects(): Promise<GitHubProject[]> {
         try {
             await dbConnect();
-            const rawResearch = await PaperModel.find({ featured: true })
-                .sort({ publishedDate: -1 })
-                .limit(2)
-                .lean<PaperDocument[]>();
-
-            return rawResearch.map((r) => ({
-                title: r.title,
-                description: r.description,
-                image: r.image || '/placeholder.png',
-                tags: r.tags || [],
-                date: formatDate(r.publishedDate || r.createdAt),
-                slug: r.slug || '',
-                category: r.category || 'all',
-            }));
+            const rows = await GitHubProjectModel.find({})
+                .sort({ pinned: -1, stars: -1 })
+                .lean<GitHubProjectDocument[]>();
+            return rows.map(toGitHubProject);
         } catch (error) {
-            console.error("Failed to fetch featured research:", error);
+            console.error("Failed to fetch all projects:", error);
             return [];
         }
-    }
-};
+    },
 
-function formatDate(date: Date | string): string {
-    return new Date(date).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    });
-}
+    async getStats(): Promise<{ published: number; pinned: number; total: number }> {
+        try {
+            await dbConnect();
+            const [published, pinned, total] = await Promise.all([
+                GitHubProjectModel.countDocuments({ published: true }),
+                GitHubProjectModel.countDocuments({ pinned: true }),
+                GitHubProjectModel.countDocuments({}),
+            ]);
+            return { published, pinned, total };
+        } catch (error) {
+            console.error("Failed to fetch project stats:", error);
+            return { published: 0, pinned: 0, total: 0 };
+        }
+    },
+};

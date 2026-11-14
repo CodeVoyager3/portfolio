@@ -72,7 +72,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                     >
                         <ShineBorder 
                             className="pointer-events-none" 
-                            shineColor={["#6366f1", "#60496e", "#71C4FF"]} 
+                            shineColor={["#f6821f", "#f97316", "#fbbf24"]} 
                         />
                         {/* Header */}
                         <div className="relative flex items-center justify-between border-b border-neutral-100 dark:border-neutral-800/50 px-6 py-5">

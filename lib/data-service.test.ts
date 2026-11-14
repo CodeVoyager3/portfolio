@@ -1,78 +1,103 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { DataService } from '@/lib/data-service'
-import ProjectModel from '@/models/Project'
+import GitHubProjectModel from '@/models/GitHubProject'
 
-// Mock Mongoose models
+const { mockFind, mockSort, mockLean, mockCount } = vi.hoisted(() => ({
+    mockFind: vi.fn(),
+    mockSort: vi.fn(),
+    mockLean: vi.fn(),
+    mockCount: vi.fn(),
+}))
+
 vi.mock('@/lib/db', () => ({
     default: vi.fn(),
 }))
 
-vi.mock('@/models/Project', () => ({
+vi.mock('@/models/GitHubProject', () => ({
     default: {
-        find: vi.fn().mockReturnThis(),
-        sort: vi.fn().mockReturnThis(),
-        limit: vi.fn().mockReturnThis(),
-        lean: vi.fn(),
+        find: mockFind,
+        countDocuments: mockCount,
     },
 }))
 
-vi.mock('@/models/Blog', () => ({
-    default: {
-        find: vi.fn().mockReturnThis(),
-        sort: vi.fn().mockReturnThis(),
-        limit: vi.fn().mockReturnThis(),
-        lean: vi.fn(),
-    },
-}))
-
-vi.mock('@/models/Paper', () => ({
-    default: {
-        find: vi.fn().mockReturnThis(),
-        sort: vi.fn().mockReturnThis(),
-        limit: vi.fn().mockReturnThis(),
-        lean: vi.fn(),
-    },
-}))
+function mockFindResult(rows: any[]) {
+    mockFind.mockReturnValue({ sort: mockSort, lean: mockLean })
+    mockSort.mockReturnValue({ lean: mockLean })
+    mockLean.mockResolvedValue(rows)
+}
 
 describe('DataService', () => {
-    it('should transform projects correctly', async () => {
-        const mockProjects = [
-            {
-                title: 'Test Project',
-                description: 'Desc',
-                techStack: ['React'],
-                thumbnail: '/img.png',
-                status: 'building',
-                demoLink: 'https://demo.com',
-                githubLink: 'https://github.com',
-                publishedDate: new Date('2024-01-01'),
-            },
-        ]
-
-        // @ts-ignore
-        ProjectModel.find().sort().limit().lean.mockResolvedValue(mockProjects)
-
-        const result = await DataService.getFeaturedProjects()
-
-        expect(result).toHaveLength(1)
-        expect(result[0].title).toBe('Test Project')
-        expect(result[0].date).toBe('January 1, 2024')
-        expect(result[0].image).toBe('/img.png')
+    beforeEach(() => {
+        vi.clearAllMocks()
     })
 
-    it('should handle empty projects gracefully', async () => {
-        // @ts-ignore
-        ProjectModel.find().sort().limit().lean.mockResolvedValue([])
-
-        const result = await DataService.getFeaturedProjects()
-        expect(result).toHaveLength(0)
+    const makeDoc = (overrides: Record<string, any> = {}) => ({
+        repoId: 1,
+        name: 'test-repo',
+        fullName: 'user/test-repo',
+        description: 'A test repo',
+        url: 'https://github.com/user/test-repo',
+        homepage: '',
+        language: 'TypeScript',
+        topics: ['react'],
+        stars: 10,
+        forks: 2,
+        isFork: false,
+        pinned: false,
+        published: true,
+        pushedAt: new Date('2024-01-01'),
+        ...overrides,
     })
 
-    it('should handle database errors gracefully', async () => {
-        // @ts-ignore
-        ProjectModel.find().sort().limit().lean.mockRejectedValue(new Error('DB Error'))
+    it('should map published projects to UI shape', async () => {
+        mockFindResult([makeDoc()])
+        const projects = await DataService.getPublishedProjects()
 
-        const result = await DataService.getFeaturedProjects()
-        expect(result).toHaveLength(0) // Should catch error and return empty array
+        expect(projects).toHaveLength(1)
+        expect(projects[0]).toMatchObject({
+            repoId: 1,
+            name: 'test-repo',
+            fullName: 'user/test-repo',
+            description: 'A test repo',
+            url: 'https://github.com/user/test-repo',
+            language: 'TypeScript',
+            topics: ['react'],
+            stars: 10,
+            forks: 2,
+            pinned: false,
+            published: true,
+        })
+        expect(projects[0].pushedAt).toBe(new Date('2024-01-01').toISOString())
+        expect(mockFind).toHaveBeenCalledWith({ published: true })
+    })
+
+    it('should return pinned repos first in featured projects', async () => {
+        const pinned = makeDoc({ repoId: 2, pinned: true, stars: 5 })
+        const other = makeDoc({ repoId: 1, pinned: false, stars: 50 })
+        mockFind.mockReturnValue({ sort: mockSort, lean: mockLean })
+        mockSort.mockReturnValue({ lean: mockLean })
+        mockLean.mockResolvedValueOnce([pinned]).mockResolvedValueOnce([other])
+
+        const projects = await DataService.getFeaturedProjects()
+
+        expect(projects.map((p) => p.repoId)).toEqual([2, 1])
+    })
+
+    it('should respect the featured limit', async () => {
+        mockFindResult([makeDoc({ repoId: 1 }), makeDoc({ repoId: 2 }), makeDoc({ repoId: 3 })])
+        const projects = await DataService.getFeaturedProjects(2)
+        expect(projects).toHaveLength(2)
+    })
+
+    it('should return stats from countDocuments', async () => {
+        mockCount.mockResolvedValueOnce(3).mockResolvedValueOnce(1).mockResolvedValueOnce(5)
+        const stats = await DataService.getStats()
+        expect(stats).toEqual({ published: 3, pinned: 1, total: 5 })
+    })
+
+    it('should return empty arrays when the model throws', async () => {
+        mockLean.mockRejectedValue(new Error('db down'))
+        const projects = await DataService.getPublishedProjects()
+        expect(projects).toEqual([])
     })
 })

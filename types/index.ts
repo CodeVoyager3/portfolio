@@ -1,77 +1,51 @@
-export interface ProjectDocument {
-    _id: string;
-    title: string;
-    description: string;
-    techStack: string[];
-    image?: string;
-    thumbnail?: string;
-    status: "building" | "operational" | "maintenance";
-    liveUrl?: string; // mapped from demoLink
-    demoLink?: string;
-    githubUrl?: string; // mapped from githubLink
-    githubLink?: string;
-    publishedDate?: Date | string;
-    createdAt: Date | string;
-    featured?: boolean;
+export interface GithubRepo {
+    id: number;
+    name: string;
+    full_name: string;
+    html_url: string;
+    description: string | null;
+    homepage: string | null;
+    language: string | null;
+    topics: string[];
+    stargazers_count: number;
+    forks_count: number;
+    fork: boolean;
+    pushed_at: string;
 }
 
-export interface BlogDocument {
+export interface GitHubProjectDocument {
     _id: string;
-    title: string;
-    slug: string;
-    content: string;
-    excerpt?: string;
-    image?: string;
-    category?: string;
-    tags?: string[];
+    repoId: number;
+    name: string;
+    fullName: string;
+    description: string;
+    url: string;
+    homepage: string;
+    language: string;
+    topics: string[];
+    stars: number;
+    forks: number;
+    isFork: boolean;
+    pinned: boolean;
     published: boolean;
-    featured: boolean;
-    publishedDate?: Date | string;
+    pushedAt: Date | string;
     createdAt: Date | string;
+    updatedAt: Date | string;
 }
 
-export interface PaperDocument {
-    _id: string;
-    title: string;
+export interface GitHubProject {
+    repoId: number;
+    name: string;
+    fullName: string;
     description: string;
-    pdfUrl: string;
-    slug?: string;
-    image?: string;
-    tags?: string[];
-    category?: string;
-    publishedDate?: Date | string;
-    featured: boolean;
-    createdAt: Date | string;
-}
-
-// UI Interfaces (transformed)
-export interface Project {
-    title: string;
-    description: string;
-    technologies: string[];
-    image: string;
-    status: "building" | "operational" | "maintenance";
-    liveUrl?: string;
-    githubUrl?: string;
-    date: string;
-}
-
-export interface Blog {
-    title: string;
-    description: string;
-    image: string;
-    tags: string[];
-    date: string;
-    slug: string;
-    category: string;
-}
-
-export interface Research {
-    title: string;
-    description: string;
-    image: string;
-    tags: string[];
-    date: string;
-    slug: string;
-    category: string;
+    url: string;
+    homepage: string;
+    language: string;
+    topics: string[];
+    stars: number;
+    forks: number;
+    isFork: boolean;
+    pinned: boolean;
+    published: boolean;
+    pushedAt: string;
 }

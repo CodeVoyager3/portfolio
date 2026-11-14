@@ -143,7 +143,7 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
         <motion.div
           className="h-full origin-left"
           style={{
-            background: "linear-gradient(90deg, var(--primary) 0%, #818cf8 100%)",
+            background: "linear-gradient(90deg, var(--primary) 0%, #fbbf24 100%)",
             boxShadow: "0 0 8px color-mix(in srgb, var(--primary) 40%, transparent)",
           }}
           initial={{ scaleX: 0 }}

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 import { motion, useInView, useMotionValue, useSpring, useTransform, type Variants } from "framer-motion"
 import { BlurFade } from "@/components/motion/animated-group"
+import { SectionHeading } from "@/components/ui/section-heading"
 
 // ─── Framer Motion Variants ────────────────────────────────────────────────
 const containerVariants: Variants = {
@@ -119,10 +120,7 @@ export function PersonalLifeSection() {
         <section className="w-full mb-16" ref={ref}>
             {/* Header */}
             <BlurFade delay={0}>
-                <div className="mb-4">
-                    <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-1">Beyond Code</p>
-                    <h2 className="text-xl font-bold text-black dark:text-white">Personal Life</h2>
-                </div>
+                <SectionHeading eyebrow="05" title="Life Beyond Tech" />
             </BlurFade>
 
             {/* Card */}
@@ -137,18 +135,8 @@ export function PersonalLifeSection() {
                     whileHover={{ z: 6 }}
                     transition={{ duration: 0.1 }}
                 >
-                    {/* Gradient border glow */}
-                    <motion.div
-                        className="pointer-events-none absolute -inset-px rounded-[10px] z-0"
-                        style={{
-                            background: "linear-gradient(135deg, rgba(201,168,76,0.5), transparent 40%, rgba(100,140,255,0.3) 100%)",
-                        }}
-                        animate={{ opacity: isHovered ? 1 : 0 }}
-                        transition={{ duration: 0.4 }}
-                    />
-
                     {/* Main card */}
-                    <div className="relative w-full overflow-hidden rounded-[10px] border border-black/10 dark:border-white/5 bg-white dark:bg-white/5 p-6 sm:p-8">
+                    <div className="relative w-full overflow-hidden rounded-[10px] border border-black/10 dark:border-white/10 bg-white dark:bg-[#0a0a0a] p-6 sm:p-8">
 
                         {/* Pitch lines background */}
                         <svg
@@ -271,6 +259,13 @@ export function PersonalLifeSection() {
                                 : "0 0 0 rgba(0,0,0,0)",
                         }}
                         transition={{ duration: 0.3 }}
+                    />
+
+                    {/* Sticker */}
+                    <img
+                        src="/stickers/beyond-coding.png"
+                        alt="Cute animal holding a gear"
+                        className="absolute -top-6 -right-3 sm:-right-6 rotate-12 z-20 hidden sm:block w-16 h-16"
                     />
                 </motion.div>
             </BlurFade>

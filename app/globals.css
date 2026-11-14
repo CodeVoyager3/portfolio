@@ -22,32 +22,32 @@
   --card-foreground: #0f172a;
   --popover: #ffffff;
   --popover-foreground: #0f172a;
-  --primary: #4f46e5;
+  --primary: #ea580c;
   --primary-foreground: #ffffff;
   --secondary: #f1f5f9;
   --secondary-foreground: #0f172a;
   --muted: #f8fafc;
   --muted-foreground: #64748b;
-  --accent: #eef2ff;
-  --accent-foreground: #3730a3;
+  --accent: #fff7ed;
+  --accent-foreground: #9a3412;
   --destructive: #dc2626;
   --destructive-foreground: #ffffff;
   --border: #e5e7eb;
   --input: #e5e7eb;
-  --ring: #6366f1;
-  --chart-1: #c7d2fe;
-  --chart-2: #93c5fd;
-  --chart-3: #60a5fa;
-  --chart-4: #3b82f6;
-  --chart-5: #2563eb;
+  --ring: #f6821f;
+  --chart-1: #fbbf24;
+  --chart-2: #f6821f;
+  --chart-3: #f97316;
+  --chart-4: #ea580c;
+  --chart-5: #c2410c;
   --sidebar: #ffffff;
   --sidebar-foreground: #0f172a;
-  --sidebar-primary: #4f46e5;
+  --sidebar-primary: #ea580c;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #eef2ff;
-  --sidebar-accent-foreground: #3730a3;
+  --sidebar-accent: #fff7ed;
+  --sidebar-accent-foreground: #9a3412;
   --sidebar-border: #e5e7eb;
-  --sidebar-ring: #6366f1;
+  --sidebar-ring: #f6821f;
   --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
 
@@ -69,45 +69,96 @@
   --tracking-normal: 0em;
   --spacing: 0.25rem;
   --color-1: oklch(66.2% 0.225 25.9);
-  --color-2: oklch(60.4% 0.26 302);
-  --color-3: oklch(69.6% 0.165 251);
-  --color-4: oklch(80.2% 0.134 225);
+  --color-2: oklch(72% 0.19 60);
+  --color-3: oklch(65% 0.19 85);
+  --color-4: oklch(55% 0.16 45);
   --color-5: oklch(90.7% 0.231 133);
 }
 
+/* Arc design tokens — shared by components/arc/* (arc ui). */
+:root {
+  --surface: #ffffff;
+  --surface-muted: #f5f5f5;
+  --border-strong: #d4d4d8;
+  --border-subtle: #f1f1f3;
+  --text-secondary: #52525b;
+  --text-muted: #71717a;
+
+  --font-body: var(--font-sans);
+  --font-display: var(--font-sans);
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --tracking-body: -0.006em;
+  --tracking-display: -0.014em;
+  --leading-body: 1.55;
+  --leading-display: 1.12;
+
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+
+  --radius-surface: 16px;
+
+  --duration-fast: 150ms;
+  --duration-standard: 200ms;
+  --duration-spring: 520ms;
+  --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
 .dark {
-  --background: #0b0f1a;
+  --surface: #0a0a0a;
+  --surface-muted: #141414;
+  --border-strong: #2a2a2e;
+  --border-subtle: #141414;
+  --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
+  --background: #000000;
   --foreground: #e5e7eb;
-  --card: #111827;
+  --card: #0a0a0a;
   --card-foreground: #e5e7eb;
-  --popover: #111827;
+  --popover: #0a0a0a;
   --popover-foreground: #e5e7eb;
-  --primary: #6366f1;
-  --primary-foreground: #0b0f1a;
-  --secondary: #1f2933;
+  --primary: #f6821f;
+  --primary-foreground: #1a1a1a;
+  --secondary: #141414;
   --secondary-foreground: #e5e7eb;
-  --muted: #1f2933;
+  --muted: #141414;
   --muted-foreground: #9ca3af;
-  --accent: #1e1b4b;
-  --accent-foreground: #c7d2fe;
+  --accent: #171717;
+  --accent-foreground: #e5e7eb;
   --destructive: #f87171;
   --destructive-foreground: #ffffff;
-  --border: #1f2933;
-  --input: #1f2933;
-  --ring: #818cf8;
-  --chart-1: #c7d2fe;
-  --chart-2: #93c5fd;
-  --chart-3: #60a5fa;
-  --chart-4: #3b82f6;
-  --chart-5: #2563eb;
-  --sidebar: #0b0f1a;
+  --border: #1c1c1e;
+  --input: #1c1c1e;
+  --ring: #f6821f;
+  --chart-1: #fbbf24;
+  --chart-2: #f6821f;
+  --chart-3: #f97316;
+  --chart-4: #ea580c;
+  --chart-5: #c2410c;
+  --sidebar: #000000;
   --sidebar-foreground: #e5e7eb;
-  --sidebar-primary: #6366f1;
-  --sidebar-primary-foreground: #0b0f1a;
-  --sidebar-accent: #1f2933;
-  --sidebar-accent-foreground: #c7d2fe;
-  --sidebar-border: #1f2933;
-  --sidebar-ring: #818cf8;
+  --sidebar-primary: #f6821f;
+  --sidebar-primary-foreground: #1a1a1a;
+  --sidebar-accent: #141414;
+  --sidebar-accent-foreground: #e5e7eb;
+  --sidebar-border: #1c1c1e;
+  --sidebar-ring: #f6821f;
   --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
 
@@ -127,9 +178,9 @@
   --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.10), 0 8px 10px -1px hsl(0 0% 0% / 0.10);
   --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.25);
   --color-1: oklch(66.2% 0.225 25.9);
-  --color-2: oklch(60.4% 0.26 302);
-  --color-3: oklch(69.6% 0.165 251);
-  --color-4: oklch(80.2% 0.134 225);
+  --color-2: oklch(72% 0.19 60);
+  --color-3: oklch(65% 0.19 85);
+  --color-4: oklch(55% 0.16 45);
   --color-5: oklch(90.7% 0.231 133);
 }
 
@@ -186,8 +237,35 @@
   --shadow-2xl: var(--shadow-2xl);
 
   /* MagicUI Marquee animations */
-  --animate-marquee: marquee var(--duration) infinite linear;
-  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+  --animate-marquee: marquee 40s infinite linear;
+  --animate-marquee-vertical: marquee-vertical 40s linear infinite;
+
+  /* Aceternity Aurora Background */
+  --animate-aurora: aurora 60s linear infinite;
+
+  @keyframes aurora {
+    from {
+      background-position: 50% 50%, 50% 50%;
+    }
+
+    to {
+      background-position: 350% 50%, 350% 50%;
+    }
+  }
+
+  /* Animated section divider */
+  --animate-section-divider: section-divider 3.5s ease-in-out infinite;
+
+  @keyframes section-divider {
+    0% {
+      transform: translateX(-100%);
+    }
+
+    60%,
+    100% {
+      transform: translateX(100%);
+    }
+  }
 
   @keyframes marquee {
     from {
@@ -271,9 +349,9 @@
   }
   --animate-rainbow: rainbow var(--speed, 2s) infinite linear;
   --color-color-5: var(--primary);
-  --color-color-4: #60496e;
-  --color-color-3: #71C4FF;
-  --color-color-2: #818cf8;
+  --color-color-4: #fbbf24;
+  --color-color-3: #f97316;
+  --color-color-2: #ea580c;
   --color-color-1: var(--primary);
   @keyframes rainbow {
   0% {
@@ -493,7 +571,7 @@
 }
 
 .dark .navbar {
-  background: rgba(11, 15, 26, 0.85);
+  background: rgba(0, 0, 0, 0.85);
 }
 
 /* Mobile responsive styles */
@@ -3103,4 +3181,74 @@
   .admin-delete-button {
     flex: 1;
   }
+}
+/* GitHub contribution snake game */
+.snake-board {
+  --snake-0: #f1f1f1;
+  --snake-1: #fed7aa;
+  --snake-2: #fdba74;
+  --snake-3: #fb923c;
+  --snake-4: #f97316;
+  --snake-accent: #c2410c;
+  outline-offset: 6px;
+  border-radius: 4px;
+}
+.dark .snake-board {
+  --snake-0: #1c1c1e;
+  --snake-1: #7c2d12;
+  --snake-2: #9a3412;
+  --snake-3: #ea580c;
+  --snake-4: #fb923c;
+  --snake-accent: #fdba74;
+}
+.snake-grid {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+.snake-month {
+  font-size: 10px;
+  fill: #737373;
+}
+.dark .snake-month {
+  fill: #a1a1aa;
+}
+.snake-grid [data-contribution] {
+  transition: fill 180ms ease;
+}
+.snake-grid [data-snake-body] {
+  transition: opacity 220ms ease;
+}
+.snake-grid [data-snake-segment] {
+  stroke: var(--snake-accent);
+  stroke-linecap: round;
+}
+.snake-grid [data-snake-head] ellipse {
+  fill: color-mix(in srgb, var(--snake-accent) 82%, #fff);
+}
+.snake-grid [data-snake-eye] {
+  fill: #1b1410;
+}
+.snake-grid [data-snake-tongue] {
+  fill: none;
+  stroke: #e0245e;
+  stroke-width: 0.9;
+  stroke-linecap: round;
+  transform-box: fill-box;
+  transform-origin: 0 50%;
+  animation: snake-tongue 1.8s ease-in-out infinite;
+}
+@keyframes snake-tongue {
+  0%, 62%, 100% { transform: scaleX(0); }
+  70%, 82% { transform: scaleX(1); }
+}
+.snake-grid [data-snake-food] {
+  fill: var(--snake-accent);
+  stroke: #fff;
+  stroke-width: 1.5;
+}
+@media (prefers-reduced-motion: reduce) {
+  .snake-grid [data-snake-body] { transition: none !important; }
+  .snake-grid [data-snake-tongue] { animation: none; transform: none; }
 }

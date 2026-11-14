@@ -26,7 +26,7 @@ export function NavigationMenuDemo() {
 
   return (
     <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2">
-      {/* Left pill: Home + Nav links */}
+      {/* Nav pill: Home + Nav links + Theme toggle */}
       <div className="flex items-center gap-0.5 p-0.5 bg-black/5 dark:bg-white/10 rounded-full h-[36px] backdrop-blur-md">
         <Tooltip>
           <TooltipTrigger asChild>
@@ -45,12 +45,11 @@ export function NavigationMenuDemo() {
 
         {/* Nav links */}
         <NavLink href="/projects" label="Projects" pathname={pathname} />
-        <NavLink href="/blogs" label="Blogs" pathname={pathname} />
-        <NavLink href="/research" label="Research" pathname={pathname} />
-      </div>
 
-      {/* Right pill: Theme toggle */}
-      <div className="flex items-center gap-0.5 p-0.5 bg-black/5 dark:bg-white/10 rounded-full h-[36px] backdrop-blur-md">
+        {/* Divider */}
+        <div className="w-px h-4 bg-black/10 dark:bg-white/10 mx-1" aria-hidden="true" />
+
+        {/* Theme toggle */}
         <Tooltip>
           <TooltipTrigger asChild>
             <div className="w-8 h-8 bg-transparent hover:bg-black/5 dark:hover:bg-white/10 transition-colors duration-200 rounded-full flex items-center justify-center text-black/75 dark:text-white/80">

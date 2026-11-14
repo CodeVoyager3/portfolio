@@ -6,6 +6,6 @@ interface SectionBorderProps {
 
 export default function SectionBorder({ className = '' }: SectionBorderProps) {
     return (
-        <div className={`border-b border-dashed dark:border-white/[0.06] border-black/[0.06] my-10 ${className}`} />
+        <div className={`my-10 h-px w-full bg-gradient-to-r from-transparent via-black/15 to-transparent dark:via-white/15 ${className}`} />
     )
 }
