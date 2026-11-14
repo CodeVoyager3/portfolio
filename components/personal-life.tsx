@@ -120,7 +120,7 @@ export function PersonalLifeSection() {
         <section className="w-full mb-16" ref={ref}>
             {/* Header */}
             <BlurFade delay={0}>
-                <SectionHeading eyebrow="05" title="Life Beyond Tech" />
+                <SectionHeading eyebrow="06" title="Life Beyond Tech" />
             </BlurFade>
 
             {/* Card */}

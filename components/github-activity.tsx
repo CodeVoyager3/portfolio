@@ -99,7 +99,7 @@ export function GitHubActivitySection({ username = 'CodeVoyager3' }: { username?
         return (
             <section className="w-full mb-16">
                 <BlurFade delay={0}>
-                    <SectionHeading eyebrow="04" title="GitHub Activity" />
+                    <SectionHeading eyebrow="05" title="GitHub Activity" />
                     <div className="h-4 w-40 bg-neutral-200 dark:bg-neutral-700 rounded animate-pulse mb-4" />
                     <div className="bg-white dark:bg-[#0a0a0a] border border-black/10 dark:border-white/10 rounded-[10px] p-4 sm:p-6">
                         <div className="grid grid-cols-[repeat(53,1fr)] gap-[2px]">
@@ -121,7 +121,7 @@ export function GitHubActivitySection({ username = 'CodeVoyager3' }: { username?
         return (
             <section className="w-full mb-16">
                 <BlurFade delay={0}>
-                    <SectionHeading eyebrow="04" title="GitHub Activity" />
+                    <SectionHeading eyebrow="05" title="GitHub Activity" />
                     <div className="bg-white dark:bg-[#0a0a0a] border border-black/10 dark:border-white/10 rounded-[10px] p-6">
                         <p className="text-neutral-500 dark:text-neutral-400 text-center">{error}</p>
                     </div>
@@ -140,7 +140,7 @@ export function GitHubActivitySection({ username = 'CodeVoyager3' }: { username?
                         className="absolute -top-6 -right-3 sm:-right-6 rotate-12 z-20 hidden sm:block"
                         aria-label="Rocket sticker"
                     />
-                    <SectionHeading eyebrow="04" title="GitHub Activity" />
+                    <SectionHeading eyebrow="05" title="GitHub Activity" />
                 </div>
 
                 <div

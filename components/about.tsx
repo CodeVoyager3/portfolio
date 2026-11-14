@@ -4,7 +4,7 @@ import { BlurFade } from "@/components/motion/animated-group"
 import { ArrowUpRight } from "lucide-react"
 import { SectionHeading } from "@/components/ui/section-heading"
 import { LogoMarquee, type LogoMarqueeBrand } from "@/components/arc/blocks/logo-marquee/logo-marquee"
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/motion/tabs"
+import { TracingBeam } from "@/components/ui/tracing-beam"
 import { TiltCard } from "@/components/motion/tilt-card"
 import { NoriLaptopSticker } from "@/components/sticker-decor"
 
@@ -149,7 +149,7 @@ export function AboutSection() {
                 </div>
             </BlurFade>
 
-            {/* Education */}
+            {/* Education - journey from school to college */}
             <BlurFade delay={0.3}>
                 <div className="mt-12">
                     <SectionHeading
@@ -157,64 +157,71 @@ export function AboutSection() {
                         title="Where I Studied"
                     />
 
-                    <Tabs defaultValue="college" variant="pill">
-                        <div className="flex justify-center sm:justify-start">
-                            <TabsList className="bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 w-fit">
-                                <TabsTrigger value="college" className="text-xs" indicatorClassName="bg-black dark:bg-white">
-                                    College
-                                </TabsTrigger>
-                                <TabsTrigger value="school" className="text-xs" indicatorClassName="bg-black dark:bg-white">
-                                    School
-                                </TabsTrigger>
-                            </TabsList>
+                    <TracingBeam>
+                        <div className="relative flex flex-col gap-8 pt-2">
+                            {/* Step 01 - School */}
+                            <div className="relative">
+                                <span
+                                    aria-hidden="true"
+                                    className="absolute left-[4px] top-[2px] h-3 w-3 rounded-full bg-[#2ca64b] ring-4 ring-black/[0.04] dark:ring-white/10"
+                                />
+                                <p className="ml-8 sm:ml-12 mb-2 font-mono text-[11px] text-neutral-500 dark:text-neutral-400">
+                                    01 · School
+                                </p>
+                                <TiltCard
+                                    max={6}
+                                    glare={false}
+                                    className="ml-8 sm:ml-12 rounded-[10px] border border-black/10 dark:border-white/10 bg-white dark:bg-[#0a0a0a] transition-colors duration-300 hover:border-black/25 dark:hover:border-white/25"
+                                >
+                                    <EducationCard
+                                        href="https://www.airforcebalbharatischool.in/"
+                                        logo={
+                                            <img
+                                                src="/logos/afbbs.jpg"
+                                                alt="Air Force Bal Bharati School logo"
+                                                className="w-10 h-10 object-contain"
+                                            />
+                                        }
+                                        name="Air Force Bal Bharati School"
+                                        detail="Secondary & Senior Secondary Education"
+                                        sub="New Delhi"
+                                        years="2018 – 2024"
+                                    />
+                                </TiltCard>
+                            </div>
+
+                            {/* Step 02 - College */}
+                            <div className="relative">
+                                <span
+                                    aria-hidden="true"
+                                    className="absolute left-[4px] top-[2px] h-3 w-3 rounded-full bg-[#f6821f] ring-4 ring-black/[0.04] dark:ring-white/10"
+                                />
+                                <p className="ml-8 sm:ml-12 mb-2 font-mono text-[11px] text-neutral-500 dark:text-neutral-400">
+                                    02 · College
+                                </p>
+                                <TiltCard
+                                    max={6}
+                                    glare={false}
+                                    className="ml-8 sm:ml-12 rounded-[10px] border border-black/10 dark:border-white/10 bg-white dark:bg-[#0a0a0a] transition-colors duration-300 hover:border-black/25 dark:hover:border-white/25"
+                                >
+                                    <EducationCard
+                                        href="https://mait.ac.in/"
+                                        logo={
+                                            <img
+                                                src="https://it.mait.ac.in/images/logo_small_trans.png"
+                                                alt="MAIT Logo"
+                                                className="w-10 h-10 object-contain"
+                                            />
+                                        }
+                                        name="Maharaja Agrasen Institute of Technology"
+                                        detail="B.Tech in Computer Science and Engineering"
+                                        sub="GGSIPU, New Delhi"
+                                        years="2024 – 2028"
+                                    />
+                                </TiltCard>
+                            </div>
                         </div>
-
-                        <TabsContent value="college" className="mt-4">
-                            <TiltCard
-                                max={6}
-                                glare={false}
-                                className="rounded-[10px] border border-black/10 dark:border-white/10 bg-white dark:bg-[#0a0a0a] transition-colors duration-300 hover:border-black/25 dark:hover:border-white/25"
-                            >
-                                <EducationCard
-                                    href="https://mait.ac.in/"
-                                    logo={
-                                        <img
-                                            src="https://it.mait.ac.in/images/logo_small_trans.png"
-                                            alt="MAIT Logo"
-                                            className="w-10 h-10 object-contain"
-                                        />
-                                    }
-                                    name="Maharaja Agrasen Institute of Technology"
-                                    detail="B.Tech in Computer Science and Engineering"
-                                    sub="GGSIPU, New Delhi"
-                                    years="2024 – 2028"
-                                />
-                            </TiltCard>
-                        </TabsContent>
-
-                        <TabsContent value="school" className="mt-4">
-                            <TiltCard
-                                max={6}
-                                glare={false}
-                                className="rounded-[10px] border border-black/10 dark:border-white/10 bg-white dark:bg-[#0a0a0a] transition-colors duration-300 hover:border-black/25 dark:hover:border-white/25"
-                            >
-                                <EducationCard
-                                    href="https://www.airforcebalbharatischool.in/"
-                                    logo={
-                                        <img
-                                            src="/logos/afbbs.jpg"
-                                            alt="Air Force Bal Bharati School logo"
-                                            className="w-10 h-10 object-contain"
-                                        />
-                                    }
-                                    name="Air Force Bal Bharati School"
-                                    detail="Secondary & Senior Secondary Education"
-                                    sub="New Delhi"
-                                    years="2018 – 2024"
-                                />
-                            </TiltCard>
-                        </TabsContent>
-                    </Tabs>
+                    </TracingBeam>
                 </div>
             </BlurFade>
         </section>

@@ -45,6 +45,7 @@ export function NavigationMenuDemo() {
 
         {/* Nav links */}
         <NavLink href="/projects" label="Projects" pathname={pathname} />
+        <NavLink href="/hackathons" label="Hackathons" pathname={pathname} />
 
         {/* Divider */}
         <div className="w-px h-4 bg-black/10 dark:bg-white/10 mx-1" aria-hidden="true" />

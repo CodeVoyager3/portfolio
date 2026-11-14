@@ -3,6 +3,7 @@ import { HeroSection } from "@/components/hero";
 import { ExperienceSection } from "@/components/experience";
 import { ProjectsSection } from "@/components/projects";
 import { AboutSection } from "@/components/about";
+import { HackathonsSection } from "@/components/hackathons";
 import { GitHubActivitySection } from "@/components/github-activity";
 import { PersonalLifeSection } from "@/components/personal-life";
 import SectionBorder from "@/components/SectionBorder";
@@ -46,6 +47,8 @@ export default async function Home() {
         <ProjectsSection />
         <SectionBorder />
         <AboutSection />
+        <SectionBorder />
+        <HackathonsSection />
         <SectionBorder />
         <GitHubActivitySection />
         <SectionBorder />
