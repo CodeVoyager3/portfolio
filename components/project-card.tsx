@@ -52,10 +52,10 @@ export function GitHubProjectCard({ project }: { project: GitHubProject }) {
                     href={project.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex flex-col h-full gap-3 p-5 bg-white dark:bg-[#0a0a0a] border border-black/10 dark:border-white/10 rounded-xl transition-all duration-300 hover:border-black/25 dark:hover:border-white/25 hover:shadow-lg hover:shadow-orange-500/10 dark:hover:shadow-black/40"
+                    className="group flex flex-col h-full gap-3 p-4 sm:p-5 bg-white dark:bg-[#0a0a0a] border border-black/10 dark:border-white/10 rounded-xl transition-all duration-300 hover:border-black/25 dark:hover:border-white/25 hover:shadow-lg hover:shadow-orange-500/10 dark:hover:shadow-black/40"
                 >
-                    <div className="flex items-center justify-between gap-2">
-                        <span className="text-[15px] font-medium text-black dark:text-white truncate">
+                    <div className="flex items-center justify-between gap-2 min-w-0">
+                        <span className="text-[14px] sm:text-[15px] font-medium text-black dark:text-white truncate">
                             {project.name}
                         </span>
                         <div className="flex items-center gap-1.5 shrink-0">
@@ -72,7 +72,7 @@ export function GitHubProjectCard({ project }: { project: GitHubProject }) {
                         {project.description || "No description provided."}
                     </p>
 
-                    <div className="flex items-center gap-3 text-xs text-neutral-400 dark:text-neutral-500">
+                    <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 text-xs text-neutral-400 dark:text-neutral-500">
                         {project.language && (
                             <span className="flex items-center gap-1.5">
                                 <span

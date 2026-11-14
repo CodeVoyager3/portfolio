@@ -55,34 +55,34 @@ function EducationCard({
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-start sm:items-center gap-4 p-3 sm:px-4 sm:py-5 rounded-md transition-colors hover:bg-black/2 dark:hover:bg-white/2"
+                    className="flex items-start sm:items-center gap-3 sm:gap-4 p-3 sm:px-4 sm:py-5 rounded-md transition-colors hover:bg-black/2 dark:hover:bg-white/2"
                 >
                     {/* Logo */}
-                    <div className="w-14 h-14 shrink-0 rounded-full bg-white flex items-center justify-center overflow-hidden border border-black/5 dark:border-white/10 shadow-sm transition-transform duration-300 group-hover/item:scale-105">
+                    <div className="w-11 h-11 sm:w-14 sm:h-14 shrink-0 rounded-full bg-white flex items-center justify-center overflow-hidden border border-black/5 dark:border-white/10 shadow-sm transition-transform duration-300 group-hover/item:scale-105">
                         {logo}
                     </div>
 
                     {/* Info Section */}
                     <div className="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                        <div className="flex flex-col gap-0.5">
+                        <div className="flex flex-col gap-0.5 min-w-0">
                             <div className="flex items-center gap-2">
-                                <h3 className="text-[15px] font-semibold text-black/80 dark:text-white/90 leading-snug">
+                                <h3 className="text-[14px] sm:text-[15px] font-semibold text-black/80 dark:text-white/90 leading-snug">
                                     {name}
                                 </h3>
-                                <ArrowUpRight className="w-4 h-4 text-neutral-400 opacity-0 -translate-x-1 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all duration-300 hidden sm:block" />
+                                <ArrowUpRight className="w-4 h-4 text-neutral-400 opacity-0 -translate-x-1 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all duration-300 hidden sm:block shrink-0" />
                             </div>
-                            <p className="text-sm text-neutral-500 dark:text-neutral-400">
+                            <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400">
                                 {detail}
                             </p>
                             {sub && (
-                                <p className="text-xs text-neutral-400 dark:text-neutral-500 mt-0.5">
+                                <p className="text-[11px] sm:text-xs text-neutral-400 dark:text-neutral-500 mt-0.5">
                                     {sub}
                                 </p>
                             )}
                         </div>
 
                         {/* Year Badge */}
-                        <span className="text-xs font-medium text-neutral-500 dark:text-neutral-400 shrink-0 tabular-nums bg-black/5 dark:bg-white/5 px-2.5 py-1 rounded-full border border-black/5 dark:border-white/10 w-fit">
+                        <span className="text-xs font-medium text-neutral-500 dark:text-neutral-400 shrink-0 tabular-nums bg-black/5 dark:bg-white/5 px-2.5 py-1 rounded-full border border-black/5 dark:border-white/10 self-start sm:self-auto sm:ml-auto w-fit">
                             {years}
                         </span>
                     </div>
@@ -99,9 +99,9 @@ export function AboutSection() {
             <BlurFade delay={0}>
                 <div className="relative">
                     <NoriLaptopSticker
-                        size={64}
+                        size={48}
                         peel
-                        className="absolute -top-6 -right-3 sm:-right-6 rotate-12 z-20 hidden sm:block"
+                        className="absolute -top-5 right-0 sm:-top-6 sm:-right-6 rotate-12 z-20 sm:scale-125 origin-bottom-left"
                         aria-label="Laptop sticker"
                     />
                     <SectionHeading eyebrow="03" title="About Me" />
@@ -110,10 +110,10 @@ export function AboutSection() {
 
             {/* Content: Image + Text side by side */}
             <BlurFade delay={0.1}>
-                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 sm:gap-8">
+                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5 sm:gap-8">
                     {/* Profile Image */}
                     <div className="shrink-0">
-                        <div className="w-40 h-40 sm:w-48 sm:h-48 rounded-2xl overflow-hidden shadow-lg">
+                        <div className="w-32 h-32 sm:w-44 sm:h-48 rounded-2xl overflow-hidden shadow-lg">
                             <img
                                 src="https://github.com/CodeVoyager3.png"
                                 alt="Amritesh Kumar Rai"
@@ -123,14 +123,14 @@ export function AboutSection() {
                     </div>
 
                     {/* Info Section */}
-                    <div className="flex-1">
+                    <div className="flex-1 min-w-0 text-center sm:text-left">
                         {/* Name */}
-                        <h3 className="text-2xl sm:text-3xl font-(family-name:--font-instrument-serif) text-black dark:text-white mb-4 text-center sm:text-left">
+                        <h3 className="text-2xl sm:text-3xl font-(family-name:--font-instrument-serif) text-black dark:text-white mb-3 sm:mb-4">
                             Amritesh Kumar Rai
                         </h3>
 
                         {/* Bio */}
-                        <p className="text-neutral-600 mb-10 dark:text-neutral-400 text-sm sm:text-base leading-relaxed text-center sm:text-left">
+                        <p className="text-neutral-600 mb-6 sm:mb-10 dark:text-neutral-400 text-sm sm:text-base leading-relaxed">
                             I&apos;m a full-stack web developer and open-source contributor passionate about building products that make an impact. I enjoy turning rough ideas into clean, scalable applications with a strong focus on usability and real-world value.
                         </p>
                     </div>
@@ -165,13 +165,13 @@ export function AboutSection() {
                                     aria-hidden="true"
                                     className="absolute left-[4px] top-[2px] h-3 w-3 rounded-full bg-[#2ca64b] ring-4 ring-black/[0.04] dark:ring-white/10"
                                 />
-                                <p className="ml-8 sm:ml-12 mb-2 font-mono text-[11px] text-neutral-500 dark:text-neutral-400">
+                                <p className="ml-6 sm:ml-12 mb-2 font-mono text-[11px] text-neutral-500 dark:text-neutral-400">
                                     01 · School
                                 </p>
                                 <TiltCard
                                     max={6}
                                     glare={false}
-                                    className="ml-8 sm:ml-12 rounded-[10px] border border-black/10 dark:border-white/10 bg-white dark:bg-[#0a0a0a] transition-colors duration-300 hover:border-black/25 dark:hover:border-white/25"
+                                    className="ml-6 sm:ml-12 rounded-[10px] border border-black/10 dark:border-white/10 bg-white dark:bg-[#0a0a0a] transition-colors duration-300 hover:border-black/25 dark:hover:border-white/25"
                                 >
                                     <EducationCard
                                         href="https://www.airforcebalbharatischool.in/"
@@ -196,13 +196,13 @@ export function AboutSection() {
                                     aria-hidden="true"
                                     className="absolute left-[4px] top-[2px] h-3 w-3 rounded-full bg-[#f6821f] ring-4 ring-black/[0.04] dark:ring-white/10"
                                 />
-                                <p className="ml-8 sm:ml-12 mb-2 font-mono text-[11px] text-neutral-500 dark:text-neutral-400">
+                                <p className="ml-6 sm:ml-12 mb-2 font-mono text-[11px] text-neutral-500 dark:text-neutral-400">
                                     02 · College
                                 </p>
                                 <TiltCard
                                     max={6}
                                     glare={false}
-                                    className="ml-8 sm:ml-12 rounded-[10px] border border-black/10 dark:border-white/10 bg-white dark:bg-[#0a0a0a] transition-colors duration-300 hover:border-black/25 dark:hover:border-white/25"
+                                    className="ml-6 sm:ml-12 rounded-[10px] border border-black/10 dark:border-white/10 bg-white dark:bg-[#0a0a0a] transition-colors duration-300 hover:border-black/25 dark:hover:border-white/25"
                                 >
                                     <EducationCard
                                         href="https://mait.ac.in/"

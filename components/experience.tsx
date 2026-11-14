@@ -24,16 +24,16 @@ export function ExperienceSection() {
                     glare={false}
                     className="rounded-[10px] border border-black/10 dark:border-white/10 bg-white dark:bg-[#0a0a0a] transition-colors duration-300 hover:border-black/25 dark:hover:border-white/25"
                 >
-                    <div className="group/item flex flex-col sm:flex-row sm:items-center gap-4 p-4 sm:p-5 rounded-[10px]">
+                    <div className="group/item flex flex-col sm:flex-row sm:items-center gap-3.5 sm:gap-4 p-4 sm:p-5 rounded-[10px]">
                         {/* Company Logo */}
-                        <div className="w-14 h-14 shrink-0 rounded-full bg-white flex items-center justify-center overflow-hidden border border-black/5 dark:border-white/10 shadow-sm transition-transform duration-300 group-hover/item:scale-105">
+                        <div className="w-12 h-12 sm:w-14 sm:h-14 shrink-0 rounded-full bg-white flex items-center justify-center overflow-hidden border border-black/5 dark:border-white/10 shadow-sm transition-transform duration-300 group-hover/item:scale-105">
                             {logoFailed ? (
-                                <span className="text-lg font-bold tracking-wide text-orange-600 dark:text-orange-400">V</span>
+                                <span className="text-base sm:text-lg font-bold tracking-wide text-orange-600 dark:text-orange-400">V</span>
                             ) : (
                                 <img
                                     src="/logos/vedahub.png"
                                     alt="Vedahub logo"
-                                    className="w-10 h-10 object-contain"
+                                    className="w-8 h-8 sm:w-10 sm:h-10 object-contain"
                                     onError={() => setLogoFailed(true)}
                                 />
                             )}
@@ -72,7 +72,7 @@ export function ExperienceSection() {
                         </div>
 
                         {/* Period Badge */}
-                        <AnimatedBadge status="neutral" size="sm" showIcon={false} className="shrink-0 tabular-nums bg-black/5 dark:bg-white/5 border-black/5 dark:border-white/10 text-neutral-500 dark:text-neutral-400">
+                        <AnimatedBadge status="neutral" size="sm" showIcon={false} className="self-start sm:self-auto sm:ml-auto shrink-0 tabular-nums bg-black/5 dark:bg-white/5 border-black/5 dark:border-white/10 text-neutral-500 dark:text-neutral-400">
                             2026 – Present
                         </AnimatedBadge>
                     </div>

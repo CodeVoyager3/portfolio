@@ -23,7 +23,7 @@ export function SpotifyHeroWidget({
         href={data.songUrl || "https://open.spotify.com"}
         target="_blank"
         rel="noopener noreferrer"
-        className="group relative flex items-center gap-2.5 sm:gap-3 px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-2xl bg-white/75 dark:bg-black/80 backdrop-blur-md border border-neutral-200/80 dark:border-neutral-800/80 hover:border-[#1DB954]/50 dark:hover:border-[#1DB954]/50 shadow-sm hover:shadow-[0_4px_20px_rgba(29,185,84,0.15)] transition-all duration-300 max-w-[270px] sm:max-w-[320px]"
+        className="group relative flex items-center gap-2.5 sm:gap-3 px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-2xl bg-white/75 dark:bg-black/80 backdrop-blur-md border border-neutral-200/80 dark:border-neutral-800/80 hover:border-[#1DB954]/50 dark:hover:border-[#1DB954]/50 shadow-sm hover:shadow-[0_4px_20px_rgba(29,185,84,0.15)] transition-all duration-300 w-full sm:w-auto max-w-full sm:max-w-[320px]"
       >
         {/* Album Cover */}
         <div className="relative shrink-0 w-10 h-10 sm:w-11 sm:h-11 rounded-lg sm:rounded-xl overflow-hidden shadow-sm bg-neutral-100 dark:bg-neutral-800 border border-black/5 dark:border-white/10 group-hover:scale-105 transition-transform duration-300">
@@ -78,7 +78,7 @@ export function SpotifyHeroWidget({
         href={data.songUrl || "https://open.spotify.com"}
         target="_blank"
         rel="noopener noreferrer"
-        className="group relative flex items-center gap-2.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-2xl bg-white/60 dark:bg-black/60 backdrop-blur-md border border-neutral-200/70 dark:border-neutral-800/70 hover:border-neutral-300 dark:hover:border-neutral-700 shadow-xs transition-all duration-300 max-w-[260px] sm:max-w-[300px]"
+        className="group relative flex items-center gap-2.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-2xl bg-white/60 dark:bg-black/60 backdrop-blur-md border border-neutral-200/70 dark:border-neutral-800/70 hover:border-neutral-300 dark:hover:border-neutral-700 shadow-xs transition-all duration-300 w-full sm:w-auto max-w-full sm:max-w-[300px]"
       >
         {data.albumImageUrl ? (
           <img

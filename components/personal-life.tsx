@@ -107,13 +107,9 @@ export function PersonalLifeSection() {
         setTimeout(() => setShowGoalFlash(false), 800)
     }
 
-    const textLines = [
-        <>Outside of tech, I&apos;m a big <strong className="text-neutral-900 dark:text-white/85 font-medium">football fan</strong>. I genuinely enjoy watching football —</>,
-        <>the joy of big matches, the late goals, and those intense <strong className="text-neutral-900 dark:text-white/85 font-medium">Champions League nights</strong></>,
-        <>that keep me glued to the screen.</>,
-        <></>,
-        <>Football has taught me to <strong className="text-neutral-900 dark:text-white/85 font-medium">stay patient, keep pushing</strong>, and believe things can</>,
-        <>turn around — and I carry that same mindset into everything I build.</>,
+    const textParagraphs = [
+        <>Outside of tech, I&apos;m a big <strong className="text-neutral-900 dark:text-white/85 font-medium">football fan</strong>. I genuinely enjoy watching football — the joy of big matches, the late goals, and those intense <strong className="text-neutral-900 dark:text-white/85 font-medium">Champions League nights</strong> that keep me glued to the screen.</>,
+        <>Football has taught me to <strong className="text-neutral-900 dark:text-white/85 font-medium">stay patient, keep pushing</strong>, and believe things can turn around — and I carry that same mindset into everything I build.</>,
     ]
 
     return (
@@ -192,24 +188,20 @@ export function PersonalLifeSection() {
 
                         {/* Text lines */}
                         <motion.div
-                            className="relative z-10"
+                            className="relative z-10 flex flex-col gap-3"
                             variants={containerVariants}
                             initial="hidden"
                             animate={isInView ? "visible" : "hidden"}
                         >
-                            {textLines.map((line, i) =>
-                                i === 3 ? (
-                                    <div key={i} className="mt-3" />
-                                ) : (
-                                    <motion.p
-                                        key={i}
-                                        className="text-sm sm:text-base leading-relaxed text-neutral-600 dark:text-neutral-400"
-                                        variants={lineVariants}
-                                    >
-                                        {line}
-                                    </motion.p>
-                                )
-                            )}
+                            {textParagraphs.map((paragraph, i) => (
+                                <motion.p
+                                    key={i}
+                                    className="text-sm sm:text-base leading-relaxed text-neutral-600 dark:text-neutral-400"
+                                    variants={lineVariants}
+                                >
+                                    {paragraph}
+                                </motion.p>
+                            ))}
                         </motion.div>
 
                         {/* Pass path arrow */}
@@ -265,7 +257,7 @@ export function PersonalLifeSection() {
                     <img
                         src="/stickers/beyond-coding.png"
                         alt="Cute animal holding a gear"
-                        className="absolute -top-6 -right-3 sm:-right-6 rotate-12 z-20 hidden sm:block w-16 h-16"
+                        className="absolute -top-5 right-0 sm:-top-6 sm:-right-6 rotate-12 z-20 w-12 h-12 sm:w-16 sm:h-16"
                     />
                 </motion.div>
             </BlurFade>

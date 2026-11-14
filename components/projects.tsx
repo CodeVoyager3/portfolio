@@ -14,9 +14,9 @@ export async function ProjectsSection() {
             <BlurFade delay={0}>
                 <div className="relative">
                     <FlameSticker
-                        size={64}
+                        size={48}
                         peel
-                        className="absolute -top-6 -right-3 sm:-right-6 rotate-12 z-20 hidden sm:block"
+                        className="absolute -top-5 right-0 sm:-top-6 sm:-right-6 rotate-12 z-20 sm:scale-125 origin-bottom-left"
                         aria-label="Flame sticker"
                     />
                     <SectionHeading

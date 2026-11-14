@@ -23,24 +23,24 @@ export function Footer() {
                     </div>
 
                     {/* Social Links */}
-                    <div className="flex justify-center sm:justify-end gap-3">
+                    <div className="flex justify-center sm:justify-end gap-2.5 sm:gap-3 flex-wrap">
                         <a
-                            className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 transition-colors duration-200 rounded-full"
+                            className="flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:py-2 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 transition-colors duration-200 rounded-full"
                             href="https://github.com/CodeVoyager3"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
                             <FaGithub className="text-[18px] text-black/75 dark:text-white/80 shrink-0" />
-                            <span className="hidden sm:inline text-sm font-medium text-black/75 dark:text-white/80">GitHub</span>
+                            <span className="text-xs sm:text-sm font-medium text-black/75 dark:text-white/80">GitHub</span>
                         </a>
                         <a
-                            className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 transition-colors duration-200 rounded-full"
+                            className="flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:py-2 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 transition-colors duration-200 rounded-full"
                             href="https://www.linkedin.com/in/amritesh-kumar-rai"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
                             <FaLinkedin className="text-[18px] text-black/75 dark:text-white/80 shrink-0" />
-                            <span className="hidden sm:inline text-sm font-medium text-black/75 dark:text-white/80">LinkedIn</span>
+                            <span className="text-xs sm:text-sm font-medium text-black/75 dark:text-white/80">LinkedIn</span>
                         </a>
                     </div>
                 </div>

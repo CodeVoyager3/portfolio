@@ -25,7 +25,7 @@ export function NavigationMenuDemo() {
 
 
   return (
-    <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2">
+    <nav className="fixed top-3 sm:top-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 max-w-[calc(100vw-24px)]">
       {/* Nav pill: Home + Nav links + Theme toggle */}
       <div className="flex items-center gap-0.5 p-0.5 bg-black/5 dark:bg-white/10 rounded-full h-[36px] backdrop-blur-md">
         <Tooltip>

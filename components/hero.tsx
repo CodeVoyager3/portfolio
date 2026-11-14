@@ -30,7 +30,7 @@ export function HeroSection() {
         <section className="w-full mt-0 mb-4 sm:mb-6">
             {/* Banner Cover with Blur Vignette */}
             <BlurFade delay={0.05} inView={false}>
-                <div className="relative w-full h-[200px] sm:h-[270px] mb-6 rounded-2xl overflow-hidden">
+                <div className="relative w-full h-[180px] sm:h-[270px] mb-4 sm:mb-6 rounded-2xl overflow-hidden">
                     <BlurVignette
                         radius="16px"
                         inset="10px"
@@ -48,9 +48,9 @@ export function HeroSection() {
                     {/* Dark overlay for text contrast */}
                     <div className="absolute inset-0 bg-black/40 z-10" />
                     {/* Quote on top of everything */}
-                    <div className="absolute inset-0 z-20 flex items-center justify-center px-6">
+                    <div className="absolute inset-0 z-20 flex items-center justify-center px-4 sm:px-6">
                         <p
-                            className="text-white text-lg sm:text-2xl md:text-3xl italic font-(family-name:--font-instrument-serif) text-center font-medium"
+                            className="text-white text-base sm:text-2xl md:text-3xl italic font-(family-name:--font-instrument-serif) text-center font-medium max-w-xl"
                             style={{ textShadow: "0 2px 16px rgba(0,0,0,0.8), 0 0 60px rgba(0,0,0,0.5)" }}
                         >
                             &ldquo;I&apos;m just a Techie, who loves to build, break and fix things&rdquo;
@@ -61,12 +61,12 @@ export function HeroSection() {
 
             {/* Profile Image & Spotify Widget - overlapping banner */}
             <BlurFade delay={0.1} inView={false}>
-                <div className="flex items-end justify-between gap-3 mb-4">
+                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 sm:gap-4 mb-4">
                     {/* Circular Profile Picture with Spotify Status */}
-                    <div className="relative shrink-0 -mt-14 sm:-mt-16">
+                    <div className="relative shrink-0 -mt-12 sm:-mt-16">
                         {/* Circular Profile Avatar with Green Border when playing */}
                         <div
-                            className={`w-24 h-24 sm:w-28 sm:h-28 relative z-10 rounded-full overflow-hidden bg-cover bg-center shrink-0 transition-all duration-500 shadow-lg ${
+                            className={`w-20 h-20 sm:w-28 sm:h-28 relative z-10 rounded-full overflow-hidden bg-cover bg-center shrink-0 transition-all duration-500 shadow-lg ${
                                 spotify.isPlaying
                                     ? "ring-4 ring-[#1DB954] shadow-[0_0_24px_rgba(29,185,84,0.45)]"
                                     : "ring-4 ring-white dark:ring-white"
@@ -88,7 +88,7 @@ export function HeroSection() {
                     </div>
 
                     {/* Right side: Spotify Live Track Widget */}
-                    <div className="mb-0.5 sm:mb-1">
+                    <div className="w-full sm:w-auto mb-0.5 sm:mb-1">
                         <SpotifyHeroWidget
                             data={spotify.data}
                             isPlaying={spotify.isPlaying}
@@ -105,7 +105,7 @@ export function HeroSection() {
                         <h1 className="font-(family-name:--font-instrument-serif) italic text-2xl sm:text-4xl tracking-[0.01em] font-medium mb-0 text-black dark:text-white">
                             Amritesh Kumar Rai
                         </h1>
-                        <div className="flex items-center gap-2 mt-2 flex-wrap">
+                        <div className="flex items-center gap-1.5 sm:gap-2 mt-2 flex-wrap">
                             <AnimatedBadge status="neutral" size="sm" showIcon={false} pulse={false} className="font-medium text-neutral-400 dark:text-neutral-500">
                                 20
                             </AnimatedBadge>
@@ -117,7 +117,7 @@ export function HeroSection() {
                             </AnimatedBadge>
                         </div>
                     </div>
-                    <div className="flex items-center gap-1 sm:gap-2 mt-3 sm:mt-0">
+                    <div className="flex items-center gap-1.5 sm:gap-2 mt-3.5 sm:mt-0">
                         <SocialPill href="https://github.com/CodeVoyager3" label="GitHub">
                             <FaGithub className="text-[16px] text-black/75 dark:text-white/80" />
                         </SocialPill>
@@ -138,7 +138,7 @@ export function HeroSection() {
 
             {/* Bio - full width */}
             <BlurFade delay={0.25} inView={false}>
-                <p className="text-neutral-600 dark:text-neutral-400 text-sm sm:text-base leading-relaxed mb-6 mt-10">
+                <p className="text-neutral-600 dark:text-neutral-400 text-sm sm:text-base leading-relaxed mb-4 sm:mb-6 mt-5 sm:mt-8">
                     I love building interactive web experiences with TypeScript, React, Next.js, and PostgreSQL. I focus heavily on creating clean, intuitive interfaces while also making sure the backend is solid and scalable. Lately, I've been exploring Generative AI and how it can be integrated into modern applications.
                 </p>
             </BlurFade>
@@ -150,16 +150,14 @@ export function HeroSection() {
                 </TextShimmer>
             </BlurFade>
 
-
-
             {/* CTA Buttons */}
             <BlurFade delay={0.35} inView={false}>
-                <div className="flex mt-10 items-center gap-3">
-                    <Magnetic strength={0.25}>
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 mt-6 sm:mt-8 w-full sm:w-auto">
+                    <Magnetic className="w-full sm:w-auto" strength={0.25}>
                         <ButtonLink
                             variant="primary"
                             size="lg"
-                            className="h-11 px-8 gap-2"
+                            className="w-full sm:w-auto justify-center h-11 px-6 sm:px-8 gap-2"
                             href="/resume"
                         >
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -169,10 +167,11 @@ export function HeroSection() {
                         </ButtonLink>
                     </Magnetic>
                     <MagneticButton
+                        magneticClassName="w-full sm:w-auto"
                         strength={0.25}
                         variant="outline"
                         size="lg"
-                        className="h-11 px-8 gap-2"
+                        className="w-full sm:w-auto justify-center h-11 px-6 sm:px-8 gap-2"
                         onClick={() => setIsContactOpen(true)}
                     >
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -192,12 +191,13 @@ function SocialPill({ href, label, children }: { href: string; label: string; ch
     return (
         <Tooltip>
             <TooltipTrigger asChild>
-                <div className="w-8 h-8 bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 transition-colors duration-200 rounded-full flex items-center justify-center">
+                <div className="w-8 h-8 sm:w-8 sm:h-8 bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 transition-colors duration-200 rounded-full flex items-center justify-center">
                     <a
                         className="flex items-center justify-center w-full h-full"
                         href={href}
                         target="_blank"
                         rel="noopener noreferrer"
+                        aria-label={label}
                     >
                         {children}
                     </a>

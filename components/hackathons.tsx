@@ -47,36 +47,40 @@ export function HackathonCard({ win }: { win: HackathonWin }) {
                 </p>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2 px-4 pb-3.5 pt-3">
-                <Trophy className="h-4 w-4 shrink-0 text-[#f6821f]" aria-hidden="true" />
-                <div className="min-w-0 flex-1 leading-tight">
-                    <h3 className="truncate text-sm font-semibold text-black/80 dark:text-white/90">
-                        {win.hackathon}
-                    </h3>
-                    {win.organizer && (
-                        <p className="truncate text-[11px] text-neutral-500 dark:text-neutral-400">
-                            {win.organizer}
-                        </p>
-                    )}
+            <div className="flex flex-wrap items-center justify-between gap-2.5 px-4 pb-3.5 pt-3">
+                <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                    <Trophy className="h-4 w-4 shrink-0 text-[#f6821f]" aria-hidden="true" />
+                    <div className="min-w-0 flex-1 leading-tight">
+                        <h3 className="truncate text-sm font-semibold text-black/80 dark:text-white/90">
+                            {win.hackathon}
+                        </h3>
+                        {win.organizer && (
+                            <p className="truncate text-[11px] text-neutral-500 dark:text-neutral-400">
+                                {win.organizer}
+                            </p>
+                        )}
+                    </div>
                 </div>
-                {win.repost ? (
-                    <AnimatedBadge status="neutral" size="sm" showIcon={false}>
-                        Repost
-                    </AnimatedBadge>
-                ) : win.prize ? (
-                    <AnimatedBadge status="success" size="sm" showIcon={false}>
-                        {win.prize}
-                    </AnimatedBadge>
-                ) : null}
-                <a
-                    href={win.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex shrink-0 items-center gap-0.5 text-[12px] font-medium text-neutral-500 transition-colors hover:text-[#f6821f] dark:text-neutral-400"
-                >
-                    View post
-                    <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
-                </a>
+                <div className="flex items-center gap-2 shrink-0">
+                    {win.repost ? (
+                        <AnimatedBadge status="neutral" size="sm" showIcon={false}>
+                            Repost
+                        </AnimatedBadge>
+                    ) : win.prize ? (
+                        <AnimatedBadge status="success" size="sm" showIcon={false}>
+                            {win.prize}
+                        </AnimatedBadge>
+                    ) : null}
+                    <a
+                        href={win.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex shrink-0 items-center gap-0.5 text-[12px] font-medium text-neutral-500 transition-colors hover:text-[#f6821f] dark:text-neutral-400"
+                    >
+                        View post
+                        <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+                    </a>
+                </div>
             </div>
         </div>
     )

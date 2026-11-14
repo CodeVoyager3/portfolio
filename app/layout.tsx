@@ -63,7 +63,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <Providers>
-          <div className="relative z-10">
+          <div className="relative z-10 overflow-x-hidden w-full">
             {children}
           </div>
           <ScrollToTop />

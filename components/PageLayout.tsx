@@ -16,10 +16,10 @@ export default function PageLayout({ children }: PageLayoutProps) {
                 <DiagonalPattern side="left" />
                 <DiagonalPattern side="right" />
 
-                {/* Content wrapper to stay inside diagonal lines */}
-                <div className="mx-auto sm:w-[calc(100%-120px)] w-full grow flex flex-col">
+                {/* Content wrapper to stay inside diagonal lines on desktop and give full width on mobile/tablet */}
+                <div className="mx-auto md:w-[calc(100%-120px)] w-full grow flex flex-col min-w-0">
                     {/* Main Content */}
-                    <div className="px-5 sm:px-6 pt-20 pb-8 grow">
+                    <div className="px-4 sm:px-6 pt-18 sm:pt-20 pb-8 grow min-w-0">
                         <NavigationMenuDemo />
                         {children}
                     </div>

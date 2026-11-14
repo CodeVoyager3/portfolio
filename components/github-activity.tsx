@@ -78,6 +78,10 @@ export function GitHubActivitySection({ username = 'CodeVoyager3' }: { username?
 
     useEffect(() => {
         if (!boardRef.current || days.length === 0) return
+        const board = boardRef.current.querySelector('[data-snake-board]')
+        if (board) {
+            board.scrollLeft = board.scrollWidth
+        }
         const engine = createQuietSnake(boardRef.current)
         return () => engine.destroy()
     }, [days])
@@ -101,15 +105,19 @@ export function GitHubActivitySection({ username = 'CodeVoyager3' }: { username?
                 <BlurFade delay={0}>
                     <SectionHeading eyebrow="05" title="GitHub Activity" />
                     <div className="h-4 w-40 bg-neutral-200 dark:bg-neutral-700 rounded animate-pulse mb-4" />
-                    <div className="bg-white dark:bg-[#0a0a0a] border border-black/10 dark:border-white/10 rounded-[10px] p-4 sm:p-6">
-                        <div className="grid grid-cols-[repeat(53,1fr)] gap-[2px]">
-                            {Array.from({ length: 53 }).map((_, weekIndex) => (
-                                <div key={weekIndex} className="flex flex-col gap-[2px]">
-                                    {Array.from({ length: 7 }).map((_, dayIndex) => (
-                                        <div key={dayIndex} className="aspect-square w-full rounded-[2px] bg-neutral-200 dark:bg-neutral-700 animate-pulse" />
+                    <div className="bg-white dark:bg-[#0a0a0a] border border-black/10 dark:border-white/10 rounded-[10px] p-4 sm:p-6 overflow-hidden">
+                        <div className="overflow-x-auto pb-2">
+                            <div className="min-w-[560px] sm:min-w-0">
+                                <div className="grid grid-cols-[repeat(53,1fr)] gap-[2px]">
+                                    {Array.from({ length: 53 }).map((_, weekIndex) => (
+                                        <div key={weekIndex} className="flex flex-col gap-[2px]">
+                                            {Array.from({ length: 7 }).map((_, dayIndex) => (
+                                                <div key={dayIndex} className="aspect-square w-full rounded-[2px] bg-neutral-200 dark:bg-neutral-700 animate-pulse" />
+                                            ))}
+                                        </div>
                                     ))}
                                 </div>
-                            ))}
+                            </div>
                         </div>
                     </div>
                 </BlurFade>
@@ -135,9 +143,9 @@ export function GitHubActivitySection({ username = 'CodeVoyager3' }: { username?
             <BlurFade delay={0}>
                 <div className="relative">
                     <PipRocketSticker
-                        size={64}
+                        size={48}
                         peel
-                        className="absolute -top-6 -right-3 sm:-right-6 rotate-12 z-20 hidden sm:block"
+                        className="absolute -top-5 right-0 sm:-top-6 sm:-right-6 rotate-12 z-20 sm:scale-125 origin-bottom-left"
                         aria-label="Rocket sticker"
                     />
                     <SectionHeading eyebrow="05" title="GitHub Activity" />
@@ -145,64 +153,66 @@ export function GitHubActivitySection({ username = 'CodeVoyager3' }: { username?
 
                 <div
                     ref={boardRef}
-                    className="rounded-[10px] border border-black/10 dark:border-white/10 bg-white dark:bg-[#0a0a0a] p-4 sm:p-6 transition-colors duration-300 hover:border-black/25 dark:hover:border-white/25"
+                    className="rounded-[10px] border border-black/10 dark:border-white/10 bg-white dark:bg-[#0a0a0a] p-4 sm:p-6 transition-colors duration-300 hover:border-black/25 dark:hover:border-white/25 overflow-hidden"
                 >
                     <div
-                        className="snake-board"
+                        className="snake-board overflow-x-auto pb-2"
                         tabIndex={0}
                         role="group"
                         aria-label="GitHub contributions and snake game"
                         data-snake-board
                     >
-                        <svg
-                            viewBox={`-2 0 ${columns * 11 + 4} 110`}
-                            data-columns={columns}
-                            className="snake-grid"
-                            role="img"
-                            aria-label={`Actual GitHub contributions over the past year. ${totalContributions} total. The snake is a decorative animation you can also play.`}
-                        >
-                            <g>
-                                {monthLabels.map((month, index) => (
-                                    <text key={index} x={month.col * 11} y={10} className="snake-month">
-                                        {month.label}
-                                    </text>
-                                ))}
-                                {days.map((entry, i) => {
-                                    const col = Math.floor((i + firstDay) / 7)
-                                    const row = (i + firstDay) % 7
-                                    return (
-                                        <rect
-                                            key={entry.date}
-                                            data-contribution
-                                            data-col={col}
-                                            data-row={row}
-                                            data-count={entry.count}
-                                            data-level={entry.level}
-                                            x={col * 11}
-                                            y={row * 11 + 20}
-                                            width={8}
-                                            height={8}
-                                            rx={2}
-                                            fill={`var(--snake-${entry.level})`}
-                                        >
-                                            <title>{`${entry.count} ${entry.count === 1 ? 'contribution' : 'contributions'} on ${entry.date}`}</title>
-                                        </rect>
-                                    )
-                                })}
-                            </g>
-                            <g aria-hidden="true" data-snake-body opacity="0">
-                                {Array.from({ length: 40 }, (_, i) => (
-                                    <line key={i} data-snake-segment opacity="0" />
-                                ))}
-                                <g data-snake-head>
-                                    <path data-snake-tongue d="M4.5 0h3.6M8.1 0l1.7-1.5M8.1 0l1.7 1.5" />
-                                    <ellipse rx="5" ry="4.3" />
-                                    <circle data-snake-eye cx="1.6" cy="-2" r="1.05" />
-                                    <circle data-snake-eye cx="1.6" cy="2" r="1.05" />
+                        <div className="min-w-[560px] sm:min-w-0">
+                            <svg
+                                viewBox={`-2 0 ${columns * 11 + 4} 110`}
+                                data-columns={columns}
+                                className="snake-grid"
+                                role="img"
+                                aria-label={`Actual GitHub contributions over the past year. ${totalContributions} total. The snake is a decorative animation you can also play.`}
+                            >
+                                <g>
+                                    {monthLabels.map((month, index) => (
+                                        <text key={index} x={month.col * 11} y={10} className="snake-month">
+                                            {month.label}
+                                        </text>
+                                    ))}
+                                    {days.map((entry, i) => {
+                                        const col = Math.floor((i + firstDay) / 7)
+                                        const row = (i + firstDay) % 7
+                                        return (
+                                            <rect
+                                                key={entry.date}
+                                                data-contribution
+                                                data-col={col}
+                                                data-row={row}
+                                                data-count={entry.count}
+                                                data-level={entry.level}
+                                                x={col * 11}
+                                                y={row * 11 + 20}
+                                                width={8}
+                                                height={8}
+                                                rx={2}
+                                                fill={`var(--snake-${entry.level})`}
+                                            >
+                                                <title>{`${entry.count} ${entry.count === 1 ? 'contribution' : 'contributions'} on ${entry.date}`}</title>
+                                            </rect>
+                                        )
+                                    })}
                                 </g>
-                            </g>
-                            <circle data-snake-food r="3" opacity="0" />
-                        </svg>
+                                <g aria-hidden="true" data-snake-body opacity="0">
+                                    {Array.from({ length: 40 }, (_, i) => (
+                                        <line key={i} data-snake-segment opacity="0" />
+                                    ))}
+                                    <g data-snake-head>
+                                        <path data-snake-tongue d="M4.5 0h3.6M8.1 0l1.7-1.5M8.1 0l1.7 1.5" />
+                                        <ellipse rx="5" ry="4.3" />
+                                        <circle data-snake-eye cx="1.6" cy="-2" r="1.05" />
+                                        <circle data-snake-eye cx="1.6" cy="2" r="1.05" />
+                                    </g>
+                                </g>
+                                <circle data-snake-food r="3" opacity="0" />
+                            </svg>
+                        </div>
 
                         {/* Legend */}
                         <div className="flex items-center justify-end mt-3 gap-2 text-[10px] sm:text-xs text-neutral-500 dark:text-neutral-400">
@@ -244,18 +254,18 @@ export function GitHubActivitySection({ username = 'CodeVoyager3' }: { username?
                     </div>
 
                     {/* In-game controls */}
-                    <div className="flex items-center justify-between gap-4 flex-wrap mt-2" data-snake-controls hidden>
+                    <div className="flex items-center justify-between gap-4 flex-wrap mt-3 pt-2 border-t border-black/5 dark:border-white/5" data-snake-controls hidden>
                         <span data-snake-status role="status" className="text-xs text-neutral-500 dark:text-neutral-400">
                             Use arrow keys or the controls.
                         </span>
-                        <div className="flex gap-1.5">
+                        <div className="flex gap-2 mx-auto sm:mx-0">
                             {[['up', '↑'], ['left', '←'], ['down', '↓'], ['right', '→']].map(([dir, label]) => (
                                 <button
                                     key={dir}
                                     type="button"
                                     data-snake-direction={dir}
                                     aria-label={`Move snake ${dir}`}
-                                    className="w-8 h-8 rounded-md border border-black/10 dark:border-white/10 bg-white dark:bg-[#0a0a0a] text-sm text-black dark:text-white hover:border-black/25 dark:hover:border-white/25 transition-colors"
+                                    className="w-9 h-9 sm:w-8 sm:h-8 rounded-md border border-black/10 dark:border-white/10 bg-white dark:bg-[#0a0a0a] text-sm text-black dark:text-white hover:border-black/25 dark:hover:border-white/25 transition-colors flex items-center justify-center font-bold"
                                 >
                                     {label}
                                 </button>
