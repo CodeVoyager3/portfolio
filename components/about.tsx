@@ -142,7 +142,7 @@ export function AboutSection() {
                 <div className="mt-8">
                     <LogoMarquee
                         title="Technologies & tools"
-                        description="The stack behind every build — from the first idea to the final deploy."
+                        description="The stack behind every build I create from the first idea to the final deploy."
                         brands={skills}
                         tone="mono"
                     />
