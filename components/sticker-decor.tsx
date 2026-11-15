@@ -1,3 +1,3 @@
 "use client";
 
-export { FlameSticker, NoriLaptopSticker, PipRocketSticker } from "stick-it-up";
+export { FlameSticker, NoriLaptopSticker, PipRocketSticker, PipThinkingSticker } from "stick-it-up";
