@@ -5,11 +5,12 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useClerk } from '@clerk/nextjs';
 import { cn } from '@/lib/utils';
-import { LayoutDashboard, FolderGit2, LogOut, Sun, Moon } from 'lucide-react';
+import { LayoutDashboard, FolderGit2, LogOut, Sun, Moon, FileText } from 'lucide-react';
 
 const navigation = [
     { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
     { name: 'GitHub Projects', href: '/admin/github', icon: FolderGit2 },
+    { name: 'Resume', href: '/admin/resume', icon: FileText },
 ];
 
 interface SidebarProps {

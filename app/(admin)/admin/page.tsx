@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { FolderGit2, Pin, Rocket, RefreshCw } from "lucide-react"
+import { FolderGit2, Pin, Rocket, RefreshCw, FileText } from "lucide-react"
 import { DataService } from "@/lib/data-service"
 import { GitHubSyncButton } from "@/components/admin/GitHubSyncButton"
 
@@ -71,6 +71,13 @@ export default async function AdminDashboard() {
                     >
                         <FolderGit2 className="h-4 w-4" />
                         Manage GitHub Projects
+                    </Link>
+                    <Link
+                        href="/admin/resume"
+                        className="flex items-center justify-center gap-2 rounded-md bg-secondary px-4 py-3 text-sm font-medium text-secondary-foreground transition-colors hover:bg-secondary/80"
+                    >
+                        <FileText className="h-4 w-4" />
+                        Manage Resume
                     </Link>
                     <Link
                         href="/"
